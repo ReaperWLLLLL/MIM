@@ -37,8 +37,10 @@ def command_check(name: str, *, required: bool) -> Check:
         )
         first_line = (result.stdout or result.stderr).splitlines()
         detail = first_line[0] if first_line else path
-    except (OSError, subprocess.TimeoutExpired):
-        detail = path
+        if result.returncode != 0:
+            return Check(name, required, False, f"exit {result.returncode}: {detail}")
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return Check(name, required, False, f"cannot run {path}: {exc}")
     return Check(name, required, True, detail)
 
 

@@ -12,3 +12,33 @@ build/
 # Generated evaluation artifacts
 .tmp/
 qa-runs/
+.worktrees/
+.superpowers/
+
+# Private inputs and local production data
+.private/
+.env
+.env.*
+!.env.example
+media/
+models/
+cache/
+social/
+coursework/
+docs/research/
+docs/superpowers/
+planning/extracted/
+*.pdf
+*.docx
+*.pptx
+*.ttf
+*.otf
+*.ttc
+*.woff*
+*.wav
+*.mp3
+*.mp4
+*.safetensors
+*.ckpt
+*.pem
+*.key

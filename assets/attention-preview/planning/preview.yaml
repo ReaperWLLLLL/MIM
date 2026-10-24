@@ -1,0 +1,49 @@
+schema_version: research-preview-spec-1
+project:
+  title: 注意力怎样分配权重
+  theme: midnight
+  source_files: [src/scenes.py, src/model.py]
+slides:
+  - id: attention
+    scene_class: AttentionPreview
+    screen_text:
+      query: 查询 q
+      score: 匹配分数
+      score1: s₁
+      score2: s₂
+      zero1: '0'
+      zero2: '0'
+      exponent: 指数项
+      exp1: e₁
+      exp2: e₂
+      exp_scale: '长度 1 = 指数值 1'
+      weight: 权重
+      weight1: a₁
+      weight2: a₂
+      total: 总长 = 1
+      value1: v₁
+      value2: v₂
+      result: 加权结果 y
+      axis2: '2'
+      axis10: '10'
+      equal: 分数相等，权重各为一半
+      prefer_second: 第二项分数升高
+      prefer_first: 让匹配偏向第一项
+      restore: 再次偏向第二项
+      change_value: 权重固定，v₂ 从 6 变到 10
+      formula: y = a₁v₁ + a₂v₂
+      calculation: ¼ × 2 + ¾ × 10 = 8
+    beats:
+      - {id: establish, screen_text: [equal]}
+      - {id: match_second, screen_text: [prefer_second]}
+      - {id: reverse, screen_text: [prefer_first]}
+      - {id: restore, screen_text: [restore]}
+      - {id: value_only, screen_text: [change_value]}
+      - {id: summarize, screen_text: [formula, calculation]}
+audience_text:
+  readme: "# 注意力怎样分配权重\n\n这段 55 秒的无声动画用单个 query、两组 key/value 演示注意力计算。数据为讲解设定。\n\n先提高第二项的匹配分数，再让匹配偏向第一项，随后回到偏向第二项的状态。最后固定 query 和 key，把 v₂ 从 6 改到 10，观察输出怎样移动。\n\n左侧显示可以为负的匹配分数。中部的指数项始终为正，使用共同的固定刻度；下方双色条的总长为 1，表示归一化权重。右侧数轴固定覆盖 2 到 10，三个点分别表示 v₁、v₂ 和输出。数字保留在固定位置，不随点移动。\n\n## 复现\n\n先按仓库根目录的 README 配置 Manim、FFmpeg 和 Python 环境，并准备合法取得的微软雅黑字体。在仓库根目录运行：\n\n```bash\npython scripts/build_research.py silent-preview \\\n  --spec assets/attention-preview/planning/preview.yaml \\\n  --authored-timeline assets/attention-preview/planning/timing-draft.json \\\n  --source assets/attention-preview/src/scenes.py \\\n  --out /absolute/path/to/attention-preview-v1 \\\n  --profile draft \\\n  --font-file /absolute/path/to/msyh.ttc\n```\n\n把输出和字体路径改为自己的路径。输出目录必须尚不存在，也不能经过符号链接；程序不会覆盖已有结果。字体已可用时可省略 `--font-file`。\n\n低清规格为 960×540、15 fps、825 帧，无音轨。高清使用 `timing-final.json` 和 `--profile final`，规格为 1920×1080、60 fps、3300 帧；两者都是 55 秒。每帧重新计算权重和输出，不对终点答案直接插值。\n\n## 文件\n\n`src/model.py` 计算状态，`src/scenes.py` 绘制动画；`planning/` 保存屏幕文字和定时，`qa/text-review.md` 记录文案编辑。算例、公式和来源见 `source/README.md`。字体和生成视频不随源码分发。\n\n当前交付是独立样片。完整论文介绍、内嵌无声切片的 PPT 和课程材料另行制作；教学效果需观看连续视频后审阅。\n"
+  source_readme: "# 算例与源码说明\n\n设单个 query、两组 key/value，维度 dₖ = 1。取 k₁ = 0、k₂ = 1、v₁ = 2，初始 v₂ = 6，匹配分数便是 s₁ = 0、s₂ = q。\n\n指数项为 e₁ = exp(s₁)、e₂ = exp(s₂)。计算权重时先减去两个分数的最大值，再取指数并归一化，这是数值稳定的 softmax。画面的指数条显示未平移的指数项，使用共同的固定刻度；权重条的总长则为 1。\n\n输入用 smoothstep 插值，h(u) = 3u² − 2u³。0 到 10 秒保持 q = 0；10 到 25 秒从 0 变到 ln 3；25 到 38 秒从 ln 3 变到 −ln 3；38 到 42 秒回到 ln 3；42 到 50 秒保持 q 不变，让 v₂ 从 6 变到 10；50 到 55 秒保持末态并显示加权和公式。\n\n输出为 y = a₁v₁ + a₂v₂，各阶段端点依次为 4、5、3、5、8。最后一段把 Q/K 固定，只改变 V，用来区分匹配权重与被加权的内容。\n\nmodel.py 计算每帧状态，scenes.py 用它更新位置、长度和两位小数。帧区间采用半开区间，非法帧号或帧率会报错。这里是一维教学算例；向量推广采用原论文的行向量约定，按行计算 softmax。\n\n## 来源\n\n计算依据为 Vaswani 等人的 [Attention Is All You Need，§3.2.1，式 (1)](https://arxiv.org/html/1706.03762v7#S3.SS2.SSS1)。教学次序参考 3Blue1Brown 的 [Attention in transformers, step-by-step](https://www.3blue1brown.com/lessons/attention/)，从具体计算引出抽象表示。本目录的算例、源码和图形为本项目编写，未使用参考课程的视频、配音、音乐或图像。\n"
+text_review:
+  content_hash: 384ddee1e5501d3f804d46e41e185aadc1c9732b356768920dca5558901cf4cc
+  humanizer: {status: approved, content_hash: 384ddee1e5501d3f804d46e41e185aadc1c9732b356768920dca5558901cf4cc}
+  humanizer-zh: {status: approved, content_hash: 384ddee1e5501d3f804d46e41e185aadc1c9732b356768920dca5558901cf4cc}

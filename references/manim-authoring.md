@@ -1,5 +1,10 @@
 # Manim authoring rules
 
+Legacy v0.1 authoring. For v0.2 use the `ResearchScene` API in
+[research-video.md](research-video.md): registered text/objects, fixed role sizes
+and every-emitted-frame audits. The legacy fit/shrink and template helpers below
+are not the research-video production contract.
+
 ## Scene mapping
 
 For v0.1, prefer one `Slide` subclass per logical slide and keep the class name identical to `scene_class` in `deck.yaml`. Do not call `next_slide()` inside that class unless the specification intentionally maps each resulting segment as a separate deliverable slide.

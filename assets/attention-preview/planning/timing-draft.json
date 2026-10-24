@@ -1,0 +1,13 @@
+{
+  "schema_version": "research-authored-timeline-1",
+  "mode": "silent-preview",
+  "fps": 15,
+  "slides": [{"id": "attention", "beats": [
+    {"id": "establish", "frames": 150},
+    {"id": "match_second", "frames": 225},
+    {"id": "reverse", "frames": 195},
+    {"id": "restore", "frames": 60},
+    {"id": "value_only", "frames": 120},
+    {"id": "summarize", "frames": 75}
+  ]}]
+}

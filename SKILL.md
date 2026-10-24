@@ -1,177 +1,38 @@
 ---
 name: build-manim-decks
-description: Build, revise, and visually QA animated scientific presentations with Manim CE and manim-slides. Use when turning a research paper, PDF, Markdown, LaTeX source, or outline into a research talk, thesis defense, or technical lesson; when repairing an existing Manim deck; or when exporting and verifying self-contained offline HTML, video-based PPTX, static PDF, and a timed speech manuscript.
+description: Use when turning a paper, lecture, script or topic into a Manim explanatory animation or animated presentation, or revising an existing Manim project. Not for text-only summaries or native-editable static slides.
 ---
 
 # Build Manim Decks
 
-Create an evidence-backed narrative, generate maintainable Manim source, review rendered frames rather than trusting code alone, and verify every requested deliverable. Preserve intermediate planning and QA artifacts so a single slide can be revised independently.
+Explain through objects and meaningful transformations. The audience should see why a relationship holds, not just watch statements appear. Visual reasoning is the default; narration and export machinery are separate, requested capabilities.
 
-## Resolve the skill and project
+## Choose the route
 
-Treat the directory containing this `SKILL.md` as `SKILL_DIR`. Keep the presentation project outside the skill directory. Use project-relative paths in all delivered rebuild instructions.
+Treat this directory as `SKILL_DIR`; keep generated projects outside it. Reuse established audience, language, source, style and scope. Inspect original scenes before revisions.
 
-For a new project, run:
+- New animation or silent video: read [creative workflow](references/creative-first.md). For a whole lecture or chapter, also read [chapter production](references/chapter-production.md).
+- Native scene implementation: read [native Manim](references/native-manim.md), not legacy authoring.
+- Requested narration, sound, PPT or other formats: read [optional post-production](references/post-production.md).
+- Existing `schema_version: "0.1"`: retain `references/workflow.md` and its tools. Preserve the project unless migration is requested.
+- Continuing an existing `schema_version: "0.2"` synchronized delivery, or explicitly requested strict audio/frame synchronization and provenance: read `references/research-video.md`. Its CLI contracts remain intact. A separate native creative sample can coexist with that archived delivery; do not claim it passed the strict pipeline.
+- Review/diagnosis or planning only: deliver that work without starting repairs or rendering.
+- Ambiguous "presentation materials": clarify format, audience and duration before expensive production.
 
-```bash
-python "$SKILL_DIR/scripts/scaffold_project.py" PROJECT_DIR --title "Talk title"
-```
+## Creative defaults and optional production tools
 
-Never overwrite user source files. Refuse non-empty project directories unless the user explicitly authorizes `--force`.
+For new material or a changed teaching scope, first follow the design conversation in [creative-first.md](references/creative-first.md): agree on depth, example scale/structure and simplifications before scene production. Reuse confirmed answers. Style approval and lighter QA do not settle example choice. Explicitly delegated choices can proceed after stating them; wording-only revisions within an agreed brief need no new design round.
 
-## Route the request
+Use 16:9 and a low-resolution representative segment. Discuss [visual styles](references/visual-styles.md): `midnight` (dark geometry), `daylight` (light academic), or `notebook` (warm paper), preserving an already agreed style. Use locally licensed Microsoft YaHei for Chinese, or the user's chosen installed font; never bundle font files. Minimal style concerns composition, not minimum node count. Use [copy and inline mathematics](references/copy-and-math.md) for audience text; mixed sentences combine prose with real mathematical objects.
 
-- **New deck from sources:** follow the complete workflow below.
-- **Revise an existing deck:** read `planning/deck.yaml`, source evidence, current QA reports, and affected scene code; update the specification first, then re-render selected slide IDs.
-- **Visual review only:** run automated QA, inspect the contact sheet and full-resolution evidence frames, and write repair findings without changing code unless the user requests fixes.
-- **Repair an output:** verify deliverables, rebuild only the failing format, and re-run its verification.
-- **Outline or planning only:** stop after the requested planning artifact; do not imply that rendered deliverables exist.
+Establish the visual explanation before narration timing. Audio is optional. Hosts, voices and backend permissions belong to the project, not this generic Skill. Follow the user's backend instructions; do not install models or silently substitute services. The existing strict v0.2 voice implementation retains its own remote-only contract.
 
-## Follow the production workflow
+For creative drafts, render real media, inspect dense states and confirm decoding. Check the agreed example complexity, explanatory copy and mathematical typography as well as clipping. Human review judges the explanation. Exhaustive frame/provenance audits are optional; existing strict CLI checks remain intact.
 
-Read `references/workflow.md` for the authoritative sequence and approval gates.
+Separate screen explanation from evidence/production notes before applying installed `humanizer` and `humanizer-zh`. Preserve necessary assumptions; write direct explanations. The [text review](references/text-humanization.md) reference distinguishes native copy review from strict versioned records.
 
-1. Run preflight for the requested inputs and outputs.
-2. Normalize sources and create an evidence map.
-3. Write and, by default, obtain approval for the design brief and outline.
-4. Write and validate `planning/deck.yaml`.
-5. Humanize audience-facing copy and approve `qa/text-review.md`.
-6. Implement and review a representative sample before full production.
-7. Generate scenes and render a low-quality draft.
-8. Run automated and visual QA; repair only affected slides.
-9. Render final media and export requested outputs.
-10. Verify HTML, PPTX, PDF, speech, sources, text review, and rebuild commands.
+Add requested audio and exports after establishing the visuals. Keep silent PPT clips, useful posters and notes; do not promise native-editable Manim objects. Distinguish structural verification from playback/listening and report unchecked items.
 
-Skip approval gates only when the user explicitly requests autonomous execution. Even then, preserve the brief, outline, deck specification, and QA evidence.
+## Sources and handoff
 
-## Run preflight
-
-```bash
-python "$SKILL_DIR/scripts/preflight.py" \
-  --need-pdf-input --need-latex --need-pptx
-```
-
-Treat missing Manim, manim-slides, FFmpeg, or required Python modules as blocking. Do not install system dependencies or change global environments without user authorization; prefer a project-local virtual environment.
-Read `references/troubleshooting.md` when dependency installation, fonts, LaTeX, conversion, or cached media fail.
-
-## Ingest evidence
-
-Read `references/source-ingestion.md` and `references/licensing-and-publication.md`.
-Keep third-party documents and full-text extraction artifacts private unless their
-license expressly permits redistribution. Normalize supported files with:
-
-```bash
-python "$SKILL_DIR/scripts/extract_source.py" SOURCE... \
-  --output-dir PROJECT_DIR/.private/extracted --extract-images
-```
-
-Use stable evidence IDs in `planning/evidence-map.md`. Public projects should retain
-bibliographic references, official links, locators, and original evidence summaries,
-not unlicensed source files or extracted full text. Never invent numeric results,
-citations, figures, equations, or experimental conditions.
-
-## Design the narrative
-
-Read `references/scientific-storytelling.md`. Match the story to a research talk, thesis defense, or technical lesson. Use action titles and one primary claim per slide. Budget every slide in seconds and keep the total within 10% of the requested duration.
-
-Write `planning/deck.yaml` using `references/deck-spec.md`, then run:
-
-```bash
-python "$SKILL_DIR/scripts/validate_deck.py" PROJECT_DIR/planning/deck.yaml --check-paths
-```
-
-Do not generate Manim scenes from an invalid specification.
-
-## Humanize the copy
-
-Read `references/text-humanization.md`. Apply a general humanizer pass, followed
-by a locale-specific pass such as `humanizer-zh` for Chinese decks when available.
-Preserve claims, values, citations, equations, and established technical terms.
-
-Run:
-
-```bash
-python "$SKILL_DIR/scripts/audit_text.py" PROJECT_DIR/planning/deck.yaml
-```
-
-Review the generated `qa/text-review.md`, synchronize revised wording with every
-visible Manim string, regenerate the speech manuscript, and mark the text review
-approved only after checking evidence fidelity and spoken rhythm. Re-render every
-slide whose visible text changed; earlier visual approval no longer applies.
-
-## Author Manim scenes
-
-Read `references/manim-authoring.md`. Prefer one stable `Slide` subclass per logical slide. Keep class names aligned with `scene_class` in `deck.yaml`, centralize the theme, reuse semantic object identity, and use motion only to explain relationships or direct attention.
-
-Render a selected sample at draft quality:
-
-```bash
-python "$SKILL_DIR/scripts/render_deck.py" PROJECT_DIR/planning/deck.yaml \
-  --profile draft --slides s02 --outputs html,speech
-```
-
-After the sample is approved, render the complete draft. Use `--dry-run` to inspect commands and `--skip-render` only when cached scene manifests are known to be current.
-
-## Perform visual QA
-
-Read `references/visual-qa.md`, then run:
-
-```bash
-python "$SKILL_DIR/scripts/visual_qa.py" PROJECT_DIR/planning/deck.yaml --profile draft
-```
-
-Open `qa/<profile>/contact-sheet.png` and inspect it visually. Inspect full-resolution first, middle, maximum-density, and final frames for slides with equations, dense labels, charts, or reported QA findings. Automated checks do not approve composition, pacing, or scientific accuracy.
-
-Record findings with slide ID, severity, evidence frame, repair, and status. Block final export on unresolved blockers; require explicit user acceptance for unresolved major findings.
-
-## Build final outputs
-
-Read `references/output-contract.md`. When the draft passes QA, run:
-
-```bash
-python "$SKILL_DIR/scripts/render_deck.py" PROJECT_DIR/planning/deck.yaml \
-  --profile final --outputs html,pptx,pdf,speech
-```
-
-Run final-profile QA after the high-resolution render:
-
-```bash
-python "$SKILL_DIR/scripts/visual_qa.py" PROJECT_DIR/planning/deck.yaml --profile final
-```
-
-Inspect `qa/final/contact-sheet.png`, every final frame at full size, and dense intermediate states. Update `qa/report.md` with findings and repairs. Set `Final visual approval: approved` only after that inspection; output verification rejects `pending`.
-
-The PPTX is intentionally video-based. Do not promise native editability of Manim objects.
-
-Verify outputs:
-
-```bash
-python "$SKILL_DIR/scripts/verify_outputs.py" PROJECT_DIR/planning/deck.yaml
-```
-
-File existence is insufficient. Verify final text-review and visual-approval evidence; HTML media and navigation; PPTX archive, slides, media, stable nonblank poster frames, static fallbacks behind videos, automatic playback, and notes; PDF page count, 16:9 dimensions, and previews; speech slide mapping and timing; source paths and evidence IDs; and exact rebuild commands.
-
-## Deliver transparently
-
-Hand off the complete project layout defined in `references/output-contract.md`. Report final artifact paths, passed and unresolved QA findings, source limitations, timing variance, the command to revise one slide, and whether each format was opened or structurally verified.
-
-Before publication, apply `references/licensing-and-publication.md`: scan tracked
-files for third-party originals, remove private extraction artifacts, preserve
-required notices, and do not bundle fonts or external executables without a separate
-redistribution review.
-
-Never claim completion when only a dry run, partial scene, placeholder, or unreviewed render exists.
-
-## Resource map
-
-- `references/workflow.md`: production sequence and approval gates.
-- `references/source-ingestion.md`: supported sources and evidence integrity.
-- `references/licensing-and-publication.md`: source privacy, attribution, and release checks.
-- `references/deck-spec.md`: required `deck.yaml` schema and timing rules.
-- `references/scientific-storytelling.md`: research and teaching narrative design.
-- `references/text-humanization.md`: general and locale-specific spoken-copy review.
-- `references/manim-authoring.md`: scene, layout, animation, and typography rules.
-- `references/visual-qa.md`: automated and visual review gates.
-- `references/output-contract.md`: project layout and deliverable verification.
-- `references/troubleshooting.md`: environment, rendering, font, cache, and export failures.
-- `assets/project-template/`: deterministic starter project copied by the scaffolder.
+Read only references needed by the chosen route. Use [source ingestion](references/source-ingestion.md) for extraction and [release boundaries](references/licensing-and-publication.md) before packaging. Keep third-party originals private, retain source locators and original explanations, and deliver editable source with reproducible commands. Never overwrite source material, install models, publish or push without the required authorization.

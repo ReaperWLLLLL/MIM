@@ -1,0 +1,49 @@
+schema_version: "0.2"
+project:
+  title: "从输入到测量"
+  kind: "technical-lesson"
+  language: "zh-CN"
+  audience: "初学科研方法的学生"
+  duration_minutes: 0.2
+  aspect_ratio: "16:9"
+  theme: "midnight"
+  source_files: ["source/example.md"]
+narrative:
+  thesis: "比较输入与测量结果，需要保留相同的测量条件。"
+  takeaways: ["输入与结果之间的连线表示测量关系。"]
+render: {width: 1920, height: 1080, fps: 60}
+voice:
+  backend: "ssh"
+  host: "tts-host"
+  remote_root: "/srv/manim-tts"
+  model: "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
+  speaker: "Uncle_Fu"
+slides:
+  - id: "s01"
+    section: "测量"
+    title: "测量流程"
+    claim: "比较结果时保持测量条件一致。"
+    purpose: "explain"
+    duration_seconds: 12
+    visual_mode: "manim"
+    source_refs: ["E1"]
+    scene_class: "Example"
+    notes: "输入经过测量后，得到可比较的结果。\n要比较这些结果，测量条件就要保持一致。"
+    screen_text:
+      title: "测量流程"
+      input: "输入"
+      output: "测量结果"
+      caption: "比较时保持测量条件一致"
+    beats:
+      - id: "observe"
+        narration: "输入经过测量后，得到可比较的结果。"
+        action: "淡入两个容器、标签和连接线。"
+        screen_text: ["title", "input", "output", "caption"]
+      - id: "compare"
+        narration: "要比较这些结果，测量条件就要保持一致。"
+        action: "平移说明文字，随后保持画面直到语音结束。"
+        screen_text: ["title", "input", "output", "caption"]
+outputs:
+  video: "deliverables/research-video.mp4"
+  pptx: "deliverables/presentation.pptx"
+  speech: "deliverables/speech.md"

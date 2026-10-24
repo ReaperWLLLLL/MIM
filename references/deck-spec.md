@@ -1,5 +1,9 @@
 # `deck.yaml` specification
 
+Legacy v0.1 schema. New v0.2 research-video projects use
+[research-video.md](research-video.md) and `assets/research-template/`; do not copy
+this schema's theme, output or estimated-timing defaults into that route.
+
 `deck.yaml` is the source of truth for narrative structure, timing, evidence, scenes, notes, and exports. Keep content decisions here and implementation details in Python.
 
 ## Required top-level structure

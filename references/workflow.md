@@ -1,6 +1,9 @@
 # End-to-end workflow
 
-Use this workflow for every new research talk, thesis defense, or technical lesson. Preserve intermediate artifacts so a later run can revise one slide without rebuilding the entire deck.
+Legacy v0.1 only. For new narrated research videos or `schema_version: "0.2"`,
+read [research-video.md](research-video.md) instead. Its audio-derived timing,
+60fps default and full-frame audit supersede this route's estimates and samples.
+Preserve this workflow for revisions of existing v0.1 projects; migration is not automatic.
 
 ## 1. Establish the brief
 
@@ -55,6 +58,8 @@ wording across `deck.yaml`, speaker notes, and visible scene strings. Text chang
 invalidate prior visual approval and require a new render of every affected slide.
 
 ## 6. Implement one representative sample
+
+Use [legacy Manim authoring](manim-authoring.md) for this v0.1 route. For environment or exporter failures consult [troubleshooting](troubleshooting.md).
 
 Implement a title/transition slide and one technically difficult explanatory slide. Render at draft quality. This sample must establish typography, palette, notation, animation pacing, and visual density.
 

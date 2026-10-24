@@ -1,5 +1,10 @@
 # Troubleshooting
 
+Environment notes can help both routes. Rendering, font-fit, re-encoding and
+export commands below belong to legacy v0.1. For v0.2 use
+[research-video.md](research-video.md) and the remote voice recovery reference;
+preserve silent clips, fixed font roles and frozen audio/frame timing.
+
 ## Installation and preflight
 
 - Use Python 3.10 or newer in a local virtual environment.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Build Manim Decks"
-  short_description: "Build and visually QA animated research presentations"
-  default_prompt: "Use $build-manim-decks to turn my research material into a visually QA-reviewed Manim presentation."
+  short_description: "Explain technical ideas with meaningful Manim animation"
+  default_prompt: "Use $build-manim-decks to discuss the teaching example, depth and visual style, then build a clear Manim explanation from my material."

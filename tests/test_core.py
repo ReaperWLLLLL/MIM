@@ -42,8 +42,26 @@ class SkillPackageTest(unittest.TestCase):
         self.assertEqual(set(frontmatter), {"name", "description"})
         self.assertEqual(frontmatter["name"], "build-manim-decks")
         self.assertLess(len(text.splitlines()), 500)
-        for reference in (REPO_ROOT / "references").glob("*.md"):
-            self.assertIn(f"`references/{reference.name}`", text)
+        # References must be discoverable, not all injected into the entry.
+        # Follow existing relative links/code paths through progressive disclosure.
+        reached: set[Path] = set()
+        pending = [skill_path.resolve()]
+        while pending:
+            page = pending.pop()
+            if page in reached:
+                continue
+            reached.add(page)
+            body = page.read_text(encoding="utf-8")
+            targets = re.findall(r"\]\(([^)\s]+\.md)(?:#[^)]*)?\)", body)
+            targets += re.findall(r"`([^`\s]+\.md)`", body)
+            for target in targets:
+                if "://" in target:
+                    continue
+                candidate = (page.parent / target).resolve()
+                if candidate.is_relative_to(REPO_ROOT.resolve()) and candidate.is_file():
+                    pending.append(candidate)
+        references = {p.resolve() for p in (REPO_ROOT / "references").glob("*.md")}
+        self.assertFalse(references - reached, f"Undiscoverable references: {references - reached}")
 
         readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
         for path in (

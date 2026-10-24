@@ -30,5 +30,11 @@ jobs:
       - name: Compile scripts
         run: python -m compileall -q scripts
 
-      - name: Run tests
-        run: python -m pytest -q
+      - name: Run explicit dependency-light tests (not the full media suite)
+        run: >-
+          python -m pytest -q tests/test_core.py tests/test_research_spec.py
+          tests/test_research_themes.py tests/test_research_layout.py
+          tests/test_research_timeline.py tests/test_research_voice.py tests/test_native_styles.py
+
+      - name: Inspect published Git files
+        run: python scripts/audit_release.py --ref HEAD

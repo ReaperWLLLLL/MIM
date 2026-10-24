@@ -64,7 +64,8 @@ def evidence_ids_from_markdown(path: Path) -> tuple[set[str], set[str]]:
     return ids, duplicates
 
 
-def validate_deck(data: dict[str, Any], *, deck_path: Path, check_paths: bool) -> list[Finding]:
+def _validate_deck(data: dict[str, Any], *, deck_path: Path, check_paths: bool,
+                   schema_version: str = "0.1", required_outputs: set[str] = REQUIRED_OUTPUTS) -> list[Finding]:
     findings: list[Finding] = []
 
     def error(path: str, message: str) -> None:
@@ -92,8 +93,8 @@ def validate_deck(data: dict[str, Any], *, deck_path: Path, check_paths: bool) -
                     f"duplicate evidence IDs: {sorted(duplicate_evidence_ids)}",
                 )
 
-    if str(data.get("schema_version")) != "0.1":
-        error("schema_version", 'must be "0.1"')
+    if str(data.get("schema_version")) != schema_version:
+        error("schema_version", f'must be "{schema_version}"')
 
     project = data.get("project")
     if not isinstance(project, dict):
@@ -263,7 +264,7 @@ def validate_deck(data: dict[str, Any], *, deck_path: Path, check_paths: bool) -
     if not isinstance(outputs, dict):
         error("outputs", "must be a mapping")
         outputs = {}
-    missing_outputs = REQUIRED_OUTPUTS - set(outputs)
+    missing_outputs = required_outputs - set(outputs)
     if missing_outputs:
         error("outputs", f"missing required outputs: {sorted(missing_outputs)}")
     seen_output_paths: set[str] = set()
@@ -273,14 +274,24 @@ def validate_deck(data: dict[str, Any], *, deck_path: Path, check_paths: bool) -
         elif not is_relative_output(path_text):
             error(f"outputs.{name}", "must stay inside the project and may not contain '..'")
         else:
-            if name in OUTPUT_SUFFIXES and Path(path_text).suffix.lower() != OUTPUT_SUFFIXES[name]:
-                error(f"outputs.{name}", f"must end with {OUTPUT_SUFFIXES[name]}")
+            suffixes = {**OUTPUT_SUFFIXES, **({"video": ".mp4"} if schema_version == "0.2" else {})}
+            if name in suffixes and Path(path_text).suffix.lower() != suffixes[name]:
+                error(f"outputs.{name}", f"must end with {suffixes[name]}")
             normalized = Path(path_text).as_posix()
             if normalized in seen_output_paths:
                 error(f"outputs.{name}", f"duplicates another output path: {path_text}")
             seen_output_paths.add(normalized)
 
     return findings
+
+
+def validate_deck(data: dict[str, Any], *, deck_path: Path, check_paths: bool) -> list[Finding]:
+    """Dispatch legacy and research contracts while preserving the CLI finding API."""
+    if str(data.get("schema_version")) == "0.2":
+        from research.spec import _validate
+        errors = _validate(data, project_root_for(deck_path), check_paths=check_paths)
+        return [Finding("error", *message.split(": ", 1)) for message in errors]
+    return _validate_deck(data, deck_path=deck_path, check_paths=check_paths)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

@@ -1,258 +1,168 @@
-<div align="center">
-
 # build-manim-decks
 
-把论文、报告和课程提纲，制作成经过文本与画面 QA 的 Manim 动态演示文稿。
+把论文、课件、讲稿或一个主题，做成能跟着看懂的 Manim 动画。
 
 [![CI](https://github.com/ReaperWLLLLL/build-manim-decks/actions/workflows/ci.yml/badge.svg)](https://github.com/ReaperWLLLLL/build-manim-decks/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Manim CE](https://img.shields.io/badge/Manim%20CE-0.20-6C63FF.svg)](https://docs.manim.community/en/stable/)
 
-[效果演示](#效果演示) · [工作流程](#工作流程) · [安装](#安装) · [开始使用](#开始使用) · [输出格式](#输出格式)
+这个 Skill 帮助 AI 和使用者一起设计解释过程：先选好例子，让观众看见对象怎样变化，再把变化对应到公式。它适合数学推导、网络关系、算法过程，以及需要动画才能讲清的课程内容。
 
-</div>
+项目仍在迭代。已有论文演示和课程动画的制作经验，但不同题材的效果还需要实际尝试。欢迎贡献教学案例、风格方案和具体的修复。
 
-![Q、K、V 注意力机制动画演示](assets/demo/qkv-attention.gif)
+## 三套视觉风格
 
-`build-manim-decks` 是一套面向 Codex 的演示文稿制作 Skill，也可以作为独立工具链使用。它把资料梳理、叙事设计、Manim 编排、文字审校、视觉检查和多格式导出放进同一套可复现流程。
+下面用同一个原创例子比较三套风格：从一条支路的两端电流，写出它对节点导纳矩阵的贡献。图像由仓库中的 Manim 代码实际渲染，未使用课件截图。
 
-它覆盖了普通 Markdown 转换之外的制作环节。每张幻灯片都有可追溯的论点、证据、时长和场景类；样片通过后才进入全稿制作；最终交付前还会检查文本溢出、裁切、空白帧、媒体封装、讲稿映射和重建命令。
+| 深色几何 `midnight` | 浅色学术 `daylight` | 暖纸手稿 `notebook` |
+| --- | --- | --- |
+| ![深色几何](assets/demo/style-midnight.png) | ![浅色学术](assets/demo/style-daylight.png) | ![暖纸手稿](assets/demo/style-notebook.png) |
+| 深蓝底、居中构图，颜色突出正在变化的对象 | 冷白底、左对齐标题，图形与推导分栏 | 暖纸底、墨色线条，边注与弧线串起推导 |
+| 适合几何、机制和连续视频 | 适合课堂投影、学术报告 | 适合逐步演算、教程 |
 
-## 效果演示
+三套风格的字号、线宽、布局和强调方式都可以复用，也允许根据内容调整。中文默认使用本机合法安装的微软雅黑；公式使用 `MathTex`。风格选择不限制算例规模。
 
-下面的 12 页演示来自一次完整的前向测试：用本 Skill 制作论文 [《Attention Is All You Need》](https://papers.nips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html)的中文导读。动画、结构图和数据图均由 Manim 重新绘制。仓库不分发论文 PDF、论文页面截图或全文提取物。
+<details>
+<summary>展开观看三套动画</summary>
 
-![Attention Is All You Need 演示文稿 12 页总览](assets/demo/attention-deck-overview.png)
+深色几何：
 
-README 中的 GIF 为加载速度做了压缩。实际项目会分别保留草稿与最终渲染，并为复杂页面抽取首帧、中间帧、最大密度帧和末帧，用于检查动画全过程，而不只检查静态封面。
+![深色几何动画](assets/demo/style-midnight.gif)
 
-## 适合什么任务
+浅色学术：
 
-- 论文导读、研究报告和组会分享
-- 学位答辩、项目汇报和技术演讲
-- 需要逐步推导、结构变化或信息流动画的课程内容
-- 已有 Manim 演示稿的局部返修、视觉 QA 和重新导出
-- 需要同时交付离线 HTML、PPTX、PDF 与逐页讲稿的场景
+![浅色学术动画](assets/demo/style-daylight.gif)
 
-如果你只需要几页静态、原生可编辑的 PowerPoint，这套流程可能过重。它更适合“动画本身承担解释任务”的演示。
+暖纸手稿：
 
-## 它具体做什么
+![暖纸手稿动画](assets/demo/style-notebook.gif)
 
-| 环节 | 产物或检查 |
-|---|---|
-| 资料整理 | 从 PDF、Markdown、LaTeX 或提纲建立证据地图；引用使用稳定 ID |
-| 叙事设计 | 设计 brief、逐页大纲、动作式标题、时长预算 |
-| 规格约束 | 用 `planning/deck.yaml` 统一管理场景、证据、讲稿和输出路径 |
-| 文本审校 | 通用 humanizer + 本地语言审校；机械扫描与人工朗读复核分开记录 |
-| Manim 制作 | 每个逻辑页对应稳定的 `Slide` 子类；主题、组件和动画语义可复用 |
-| 样片门禁 | 先完成代表性页面，让用户确认叙事密度、字体、配色和动效 |
-| 视觉 QA | 抽帧、总览图、边界与密度检查，再进行全分辨率人工复核 |
-| 多格式导出 | 单文件离线 HTML、视频型 PPTX、静态 PDF、定时讲稿 |
-| 交付验证 | 检查媒体、海报帧、备注、页数、比例、引用、审批状态和重建命令 |
-| 发布检查 | 私有化第三方全文和原始文档，保留许可证与第三方说明 |
+</details>
 
-## 工作流程
+风格说明见 [visual-styles.md](references/visual-styles.md)，可复用参数见 [styles.py](assets/native-example/styles.py)，完整示例见 [style_showcase.py](assets/native-example/style_showcase.py)。
 
-```mermaid
-flowchart LR
-    A[输入资料] --> B[证据地图]
-    B --> C[设计 brief 与大纲]
-    C --> D[deck.yaml]
-    D --> E[文本审校]
-    E --> F[代表性样片]
-    F --> G[全稿草稿]
-    G --> H[自动与人工 QA]
-    H -->|修复受影响页面| G
-    H --> I[最终渲染与导出]
-    I --> J[交付验证]
-```
+## 当前流程
 
-默认有两个需要用户确认的节点：大纲和代表性样片。用户明确要求自主执行时，可以跳过等待，但设计 brief、大纲、规格文件和 QA 证据仍会保留。
+1. **讨论教学设计。** 确认听众、学习目标、深度、时长和输出格式；一起决定主例需要保留哪些结构、可以做哪些简化，以及采用哪套风格。已经确认的答案会继续沿用。
+2. **阅读材料，组织分镜。** 整章内容先梳理知识覆盖。每个场景说明观众跟随什么对象、执行什么操作、由此理解什么关系。可以调整讲解次序，不必一页课件对应一幕。
+3. **制作代表性低清样片。** 优先选择最难解释的一段。使用者判断算例是否合适、动效是否有帮助，再据此调整。
+4. **完成连续动画。** 保持节点、符号、颜色和参考方向一致，用公式变换、对象移动和局部聚焦展开推导。
+5. **检查与交付。** 核对数学含义、排版、遮挡和密集画面，检查视频能否完整解码。交付源码和复现命令；按需追加配音、HTML 或视频型 PPT。
 
-完整规则见 [SKILL.md](SKILL.md) 和 [工作流说明](references/workflow.md)。
+默认先讨论设计并审阅样片。使用者已经授权全量制作或明确委托选择时，按约定继续，不重复确认。技术检查与人的审阅分别记录；抽帧检查不等于连续看过整片。
 
-## 输出格式
+入口是 [SKILL.md](SKILL.md)。默认使用[创作流程](references/creative-first.md)和[原生 Manim](references/native-manim.md)，整章任务补读[章节制作](references/chapter-production.md)。
 
-| 格式 | 用途 | 实现方式与边界 |
-|---|---|---|
-| `presentation.html` | 浏览器演示、离线分享 | 视频以 data URI 嵌入单个 HTML；带键盘导航、进度、全屏和讲者备注，不依赖 CDN |
-| `presentation.pptx` | PowerPoint、Keynote 或 LibreOffice 演示 | 每页嵌入 Manim 视频，并放置唯一海报帧和静态后备图；含逐页备注，但 Manim 对象不是原生可编辑形状 |
-| `presentation.pdf` | 归档、审阅和打印 | 每页选取一个有代表性的稳定帧，保持 16:9 版式 |
-| `speech.md` | 排练和现场讲述 | 按页记录目标时长、口播稿、翻页提示和证据 ID |
+## Skill 会帮助约束什么
 
-PowerPoint、Keynote、LibreOffice 和浏览器对媒体自动播放的处理并不完全相同。发布前应在实际演示设备上再走一遍。
+画面可以简洁，例子仍应保留教学目标需要的结构。选择五节点还是更大网络，要由内容决定。动画应解释关系：例如把支路电流式里的系数移动到矩阵对应位置，让观众看见符号的来处。
 
-## 安装
+屏幕文字描述眼前的动作。详细来源核查和制作记录留在备注中，科学结论需要的条件仍要说清。文字经过 Humanizer 和 Humanizer-zh 复核；环境里没有这两个 Skill 时，按[文字复核说明](references/text-humanization.md)进行人工编辑并说明情况。仓库不捆绑上游 Skill。
 
-### 1. 准备运行环境
+句子里的公式也使用数学排版，例如树支子矩阵的下标与矩阵转置应有区别。写场景时参考[文字与公式混排](references/copy-and-math.md)。
 
-建议使用 Python 3.10 或更高版本，并创建独立虚拟环境。Manim 还需要 Cairo、Pango、FFmpeg 等系统组件；需要公式排版时再安装 LaTeX。不同系统的准备方式请以 [Manim CE 官方安装文档](https://docs.manim.community/en/stable/installation.html) 为准。
+先做好视觉解释，再安排配音。讲稿跟随已确认的画面和停顿；配音、音乐和音效均按需求启用。普通创作使用代表性画面检查，最终教学效果由人审阅。
 
-本仓库使用 Manim Community Edition 和 Manim Slides。若要使用 Manim Slides 的本地演示窗口，还需按其 [安装说明](https://manim-slides.eertmans.be/latest/installation.html) 选择 Qt 后端；仅渲染和导出时通常不需要该窗口。
+## 安装与环境
 
-### 2. 安装 Skill
-
-将仓库克隆到 Codex 的 Skill 目录。默认目录通常是 `~/.codex/skills`；如果你设置了其他 `CODEX_HOME`，请相应替换。
+把仓库放到当前 AI 工具的 Skill 目录中，或在对话中提供 `SKILL.md` 的路径。Codex 默认目录的安装示例：
 
 ```bash
-mkdir -p ~/.codex/skills
 git clone https://github.com/ReaperWLLLLL/build-manim-decks.git \
   ~/.codex/skills/build-manim-decks
 cd ~/.codex/skills/build-manim-decks
-```
-
-创建虚拟环境并安装 Python 依赖：
-
-```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Windows PowerShell 激活命令为：
+Windows PowerShell 使用 `.venv\Scripts\Activate.ps1` 激活环境。已有安装且工作区干净时，可在仓库目录运行 `git pull --ff-only` 更新；有本地修改时先保留自己的改动。
 
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-### 3. 运行环境检查
-
-下面的检查覆盖 PDF 输入、LaTeX 公式和 PPTX 输出所需组件：
+本项目使用 Manim Community Edition，当前依赖范围为 0.20.x。本地渲染还需要 Cairo/Pango、FFmpeg/FFprobe；示例中的公式需要 LaTeX。系统组件按 [Manim 官方说明](https://docs.manim.community/en/stable/installation.html)安装。普通无声动画无需语音模型或 GPU。
 
 ```bash
-python scripts/preflight.py \
-  --need-pdf-input \
-  --need-latex \
-  --need-pptx
+python scripts/preflight.py --need-latex
+# 读取 PDF、导出 PPTX 时再增加 --need-pdf-input 或 --need-pptx
 ```
 
-如果项目不含公式，可去掉 `--need-latex`。如果输入不是 PDF，也可以去掉 `--need-pdf-input`。
+中文默认字体为 Microsoft YaHei，需自行合法安装，也可以指定其他已安装中文字体。仓库不提供字体下载或字体文件。
 
-## 开始使用
+## 怎样使用
 
-### 在 Codex 中使用
-
-把资料放在一个独立项目目录中，然后在 Codex 对话里明确受众、时长、语言、输出格式和审批方式。例如：
+在独立项目目录里存放材料，再把下面的提示交给 AI：
 
 ```text
-使用 $build-manim-decks，把 source/paper.pdf 做成一场 12 分钟的中文论文导读。
-
-受众是了解深度学习基础的研究生。请输出离线 HTML、PPTX、PDF 和逐页讲稿。
-先和我确认设计 brief 与大纲，再做两页代表性样片；样片批准后再完成全稿。
-所有数字、公式和结论都要关联到 evidence-map，不要使用论文页面截图。
+使用 $build-manim-decks，把这份课件做成中文无声讲解视频。
+听众是相关方向研究生，目标是理解物理意义并能跟着推导。
+时长不超过 20 分钟，使用符号推导，暂不代入具体数值。
+采用 daylight 浅色学术风格。
+先和我确认主例的结构与简化方式，再给出分镜和低清样片。
+样片认可后完成全量视频，交付连续 MP4、HTML 预览和源码。
+材料仅供本地使用，不要上传原文。
 ```
 
-Skill 会按 QA 节点推进，而不是一次性生成所有页面。修改意见最好指向页 ID，例如“把 `s04` 的 Q–K–V 区域放大，并缩短底部结论”，这样只需重渲染受影响的场景。
+只有主题也可以开始，例如“讲解傅里叶变换，让学过微积分的学生理解频域的含义”。不确定怎么选例子或风格时，让 AI 提供方案和取舍。你不需要先写代码，主要判断解释是否准确、深度是否合适、样片是否讲明白。
 
-### 用脚本建立项目
+修改已有作品时，提供源码与视频，指出位置和希望改善的理解过程。例如“在第二节推导里，让矩阵每一项与对应支路同步高亮”。Skill 会先检查原场景，再修改受影响的部分。
 
-如果你想先手动创建目录，可以直接运行脚手架。演示项目应放在 Skill 仓库之外。
+## 运行三套风格示例
+
+在已激活环境的仓库根目录运行：
 
 ```bash
-export SKILL_DIR="$HOME/.codex/skills/build-manim-decks"
-
-python "$SKILL_DIR/scripts/scaffold_project.py" \
-  ./my-research-talk \
-  --title "My Research Talk"
+python -m manim -ql --disable_caching --media_dir build/style-demo \
+  assets/native-example/style_showcase.py Midnight Daylight Notebook
 ```
 
-脚手架会创建以下结构：
+命令会输出三个低清无声视频，路径显示在 Manim 日志中。只想看一套时，保留对应的类名即可。需要更清楚的预览时，把 `-ql` 改成 `-r 1280,720 --fps 30`。
 
-```text
-my-research-talk/
-├── .private/                 # 第三方原文与全文提取物；默认不进入版本库
-├── source/                   # 可公开的自有资料、提纲或引用记录
-├── planning/
-│   ├── design-brief.md
-│   ├── evidence-map.md
-│   ├── outline.md
-│   └── deck.yaml
-├── src/                      # Manim 主题、组件与场景代码
-├── build/                    # 草稿和最终渲染缓存
-├── qa/                       # 文本复核、抽帧、总览图与修复记录
-└── deliverables/
-    ├── presentation.html
-    ├── presentation.pptx
-    ├── presentation.pdf
-    ├── speech.md
-    └── rebuild.md
-```
+字体已安装但未被发现时，设置 `MANIM_CHINESE_FONT_FILE` 为本机字体路径；换字体时再设置 `MANIM_CHINESE_FONT` 为字体家族名。示例会报告缺失的字体，不会自动下载。实际项目放在 Skill 目录外，复制需要的示例和参数即可。
 
-脚本负责确定性的校验、渲染、抽帧和导出。`src/` 中的场景仍由 Codex 按叙事和视觉目标编写，不是固定模板的简单套用。
+## 输出与兼容路线
 
-## 常用命令
+| 需求 | 路线与交付 |
+| --- | --- |
+| 无声样片、完整讲解视频 | 默认原生 Manim；连续 MP4、场景源码和复现命令 |
+| HTML 预览 | 按需包装视频或章节，说明媒体是否随页面一起分发 |
+| 视频型 PPT | 每页嵌入无声切片，提供海报帧和讲稿备注；Manim 对象不会变成可编辑的 PPT 形状 |
+| 静态 PDF | 选取关键帧，用于阅读和打印 |
+| 配音 | 视觉确认后按画面编写讲稿，使用项目指定的声音和后端；需要实际试听 |
+| 已有 `schema_version: "0.1"` 演示稿 | 保留[旧版逐页工作流](references/workflow.md)与 HTML/PPTX/PDF 导出工具 |
+| 已有 `schema_version: "0.2"` 或明确需要严格同步 | 使用 [research-video](references/research-video.md) 的音频、时间轴和逐帧检查合同 |
 
-在 `deck.yaml` 已经完成并通过审阅后，可以手动执行这些命令：
+普通原生场景不要求先编写 `deck.yaml`。`scaffold_project.py` 创建的是旧版 v0.1 项目；`build_research.py` 服务于严格 v0.2 项目，不能把任意原生场景直接当作其输入。三套新风格用于原生场景，旧版主题名称保持兼容。
 
-```bash
-# 校验叙事、时长、证据和路径
-python "$SKILL_DIR/scripts/validate_deck.py" \
-  ./my-research-talk/planning/deck.yaml \
-  --check-paths
+后期说明见 [post-production.md](references/post-production.md)。软件封装检查不能代替实际 PowerPoint 或浏览器播放，交付时会说明哪些播放器已验证。
 
-# 生成文本审校报告
-python "$SKILL_DIR/scripts/audit_text.py" \
-  ./my-research-talk/planning/deck.yaml
+## 较早的论文演示
 
-# 只渲染 s04 的草稿，并刷新 HTML 与讲稿
-python "$SKILL_DIR/scripts/render_deck.py" \
-  ./my-research-talk/planning/deck.yaml \
-  --profile draft \
-  --slides s04 \
-  --outputs html,speech
+下面是项目此前制作的 *Attention Is All You Need* 中文导读，展示逐页演示路线。图形由 Manim 解释性重绘，仓库没有论文 PDF、页面截图或全文提取物。
 
-# 为草稿抽帧并生成总览图
-python "$SKILL_DIR/scripts/visual_qa.py" \
-  ./my-research-talk/planning/deck.yaml \
-  --profile draft
+![注意力动画](assets/demo/qkv-attention.gif)
 
-# 最终渲染四种交付物
-python "$SKILL_DIR/scripts/render_deck.py" \
-  ./my-research-talk/planning/deck.yaml \
-  --profile final \
-  --outputs html,pptx,pdf,speech
+![12 页演示总览](assets/demo/attention-deck-overview.png)
 
-# 终检
-python "$SKILL_DIR/scripts/verify_outputs.py" \
-  ./my-research-talk/planning/deck.yaml
-```
+三套风格示例与旧演示的来源说明见 [demo provenance](assets/demo/README.md)。
 
-需要先查看底层命令而不实际渲染时，给 `render_deck.py` 加上 `--dry-run`。
+## 私有材料与开源范围
 
-## QA 重点
+课件、论文原文和全文提取结果放在项目的 `.private/` 目录。公开代码只保留必要的书目信息、出处定位、独立撰写的说明和有权分发的素材。不要提交页面截图、私人讲稿、SSH 配置、克隆声音样本、模型权重或专有字体。
 
-自动检查适合发现可计算的问题，不能替代人眼判断。最终审核至少覆盖以下内容：
+本仓库发布通用 Skill、工具、测试及原创示例，不包含本地课程项目、个人服务器配置和开发过程记录。`.gitignore` 只是辅助措施：上传前还要检查实际提交和新增历史；打 ZIP 时检查实际归档内容。
 
-- 标题、标签和公式是否越过形状边界或画面安全区
-- 动画中间态是否发生遮挡、裁切、闪烁或信息堆叠
-- 引用、数字、单位、公式与 evidence map 是否一致
-- PPTX 是否有非空海报帧、静态后备图、自动播放设置和讲者备注
-- PDF 页数、16:9 尺寸和代表帧是否正确
-- HTML 是否单文件离线可用，是否存在远程脚本、字体或媒体依赖
-- 讲稿页序、总时长和翻页提示是否与演示稿一致
-
-详细标准见 [视觉 QA](references/visual-qa.md) 与 [输出契约](references/output-contract.md)。
-
-## 版权与发布边界
-
-仓库源码采用 [MIT License](LICENSE)。Manim、Manim Slides、pypdf、FFmpeg 等依赖继续适用各自许可证，详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
-
-本 Skill 默认把第三方 PDF、全文提取物和页面渲染放进 `.private/`，公开项目只保留书目信息、官方链接、定位信息、独立撰写的摘要和带出处的解释性重绘。仓库也不会打包微软雅黑等专有字体文件、FFmpeg 二进制或 Python 虚拟环境。发布二进制安装包或容器时，需要重新盘点实际捆绑的全部依赖。
-
-关于输入材料和示例项目的发布规则，见 [许可与发布说明](references/licensing-and-publication.md)。
+源码采用 [MIT License](LICENSE)，依赖与外部素材各自保留许可证，见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 和[发布边界](references/licensing-and-publication.md)。
 
 ## 开发与贡献
 
-安装开发依赖并运行测试：
+轻量测试不需要语音模型或真实 SSH：
 
 ```bash
 python -m pip install -r requirements-dev.txt
-python -m pytest -q
+python -m pytest -q tests/test_core.py tests/test_research_spec.py \
+  tests/test_research_themes.py tests/test_research_layout.py \
+  tests/test_research_timeline.py tests/test_research_voice.py tests/test_native_styles.py
+python scripts/audit_release.py --ref HEAD
 ```
 
-欢迎提交问题和 Pull Request。涉及渲染或版式的改动，请附上最小复现用的 `deck.yaml`、受影响的页 ID，以及修复前后的 QA 帧；不要把无权再分发的论文原文、字体或其他第三方素材提交到仓库。
+GitHub CI 运行上述轻量测试和发布文件检查。完整 `python -m pytest -q` 还包含媒体与渲染测试，需要 FFmpeg、TeX、Manim 和可用字体；CI 通过不代表所有渲染或播放器都已测试。提交前可用 `audit_release.py --ref INDEX` 检查暂存文件，再对提交后的 `HEAD` 检查。
 
-## 致谢
-
-本项目建立在 [Manim Community Edition](https://github.com/ManimCommunity/manim) 与 [Manim Slides](https://github.com/jeertmans/manim-slides) 之上。文字复核流程参考了 Humanizer、Humanizer-zh 与 Stop Slop 的公开方法，但规则和实现均在本仓库中独立编写，未复制或捆绑上游 Skill 文件。
+欢迎提交最小复现、带说明的动画案例，或一处具体的教学改进。涉及视觉的改动，请附前后画面和复现命令；示例使用自写或许可明确的输入。项目依赖 Manim CE 和 Manim Slides，文字编辑方法参考 Humanizer、Humanizer-zh 与 Stop Slop，未捆绑这些项目的 Skill 文件。

@@ -1,5 +1,9 @@
 # Visual QA gates
 
+Legacy v0.1 QA. New v0.2 videos require every-frame semantic/layout evidence
+and decoded media verification described in [research-video.md](research-video.md).
+The sampled-frame checks below do not replace that coverage or actual listening.
+
 Visual QA has four layers. A deck passes only when all applicable layers pass or the final report records an explicit user-approved exception.
 
 ## Layer 1: specification QA

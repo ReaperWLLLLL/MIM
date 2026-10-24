@@ -1,5 +1,9 @@
 # Output and project contract
 
+Legacy v0.1 outputs. For v0.2 narrated MP4, silent-video PPT and actual-timing
+speech, use [research-video.md](research-video.md). These legacy HTML/PDF commands
+do not provide the v0.2 publication or verification contract.
+
 ## Project layout
 
 Create projects with this stable layout:

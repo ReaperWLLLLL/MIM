@@ -1,0 +1,187 @@
+{
+  "skill_name": "build-manim-decks",
+  "schema_version": "1.0",
+  "purpose": "Routing and artifact-based forward tests; definitions are not execution results.",
+  "execution": {
+    "status": "not_run",
+    "isolation": "Run each case in a clean context with the frozen Skill and only the indicated raw inputs. Keep generated media and logs outside the Skill repository. The producer must not modify the Skill or receive a worked paper explanation.",
+    "records": [
+      "raw prompt",
+      "skill revision and file hashes",
+      "input version and hashes",
+      "model and environment",
+      "actual command/selection trace",
+      "artifact inventory and hashes",
+      "elapsed time and available usage",
+      "criterion results with pass/fail/not_checked and direct evidence"
+    ],
+    "review": "Use actual decoded media, source locators and target-player playback. Keep structural, scientific, motion and listening results separate. The controller runs independent production/review; these definitions contain no claimed pass rate.",
+    "scope": "Exercise native creative production by default; use strict v0.2 only when its additional guarantees are requested."
+  },
+  "evals": [
+    {
+      "id": "C1",
+      "category": "native_chapter",
+      "prompt": "使用 $build-manim-decks，把这份网络分析讲义做成 15 分钟无声动画，听众是研究生。风格清爽，先给我样片。",
+      "inputs": [
+        "lawfully held source chapter",
+        "empty project directory"
+      ],
+      "expected": [
+        "discusses learning depth, main-example structure and simplifications before production",
+        "offers midnight, daylight and notebook without equating simple composition with a tiny example",
+        "maps substantive chapter coverage",
+        "renders a native low-resolution explanatory sample",
+        "no compulsory strict schema, narration or every-frame audit",
+        "asks for sample review without claiming a completed chapter"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "C2",
+      "category": "approved_style_and_inline_math",
+      "prompt": "主例和分镜已经确认，按 notebook 暖纸手稿风格完成无声动画。正文中的树支矩阵 A_T 和转置 A^T 要区分；配音暂不做。你可以自主完成，只需最后给我审核。",
+      "inputs": [
+        "confirmed brief and storyboard",
+        "project source"
+      ],
+      "expected": [
+        "reuses confirmed design without asking again",
+        "uses notebook composition and semantic colors",
+        "typesets subscripts and superscripts as actual mathematics inside prose",
+        "checks representative rendered states and decoding",
+        "delivers full video and source without audio/model download",
+        "distinguishes tool verification from human review"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "P1",
+      "category": "explicit_positive",
+      "prompt": "使用 $build-manim-decks，将提供的论文制作成面向相关领域研究生的中文科研解说，时长 3 至 5 分钟。完整 MP4 为 1920×1080、60fps，普通话男声旁白。重点讲清研究问题与关键机制。另交付 PPT：按主视频章节内嵌对应的无声动画片段，每页有海报帧与讲者备注。保存可复现源文件与章节映射；图表和算例在对应图注中标明出处与范围。先确认大纲和主题，再做样片。 需要严格 v0.2 的逐帧几何审计与配音样本同步记录。",
+      "inputs": [
+        "lawfully available raw paper with fixed version/hash",
+        "prepared authorized tts-host voice runtime",
+        "empty output directory",
+        "target PPT player name"
+      ],
+      "expected": [
+        "trace loads the target Skill and chooses v0.2",
+        "brief and theme confirmation before full production",
+        "real dual-pass edit evidence and current copy hashes",
+        "actual 180–300 second 1920x1080 60fps narrated MP4",
+        "one embedded zero-audio-track clip per chapter with exact ordered decoded frames",
+        "stable nonblank poster and canonical narration notes on every page",
+        "every-frame registration/layout evidence and frozen sample/frame mapping",
+        "declared output verification exits 0 and actual playback/listening are recorded separately"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "P2",
+      "category": "implicit_positive",
+      "prompt": "把提供的论文做成一段给本方向研究生看的中文科研解说，3 至 5 分钟，1080p60，有普通话男声。还需要一份 PPT，每页播放成片对应章节的无声动画，并有海报和旁白备注。保留源代码、证据记录和重建命令。先与我确认大纲及主题。 需要严格 v0.2 的逐帧几何审计与配音样本同步记录。",
+      "inputs": [
+        "same raw-input contract as P1; independent empty output directory"
+      ],
+      "expected": [
+        "trace selects build-manim-decks without its name in the prompt",
+        "same media and evidence contract as P1",
+        "no silent fallback to legacy static/HTML-only production"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "N1",
+      "category": "negative_trigger",
+      "prompt": "只用 200 字总结这篇论文，不要视频、PPT、动画或配音。",
+      "inputs": [
+        "raw paper"
+      ],
+      "expected": [
+        "a text-only summary",
+        "no project scaffold, SSH synthesis, model setup, rendering or media export",
+        "trace does not invoke the research-video workflow"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "A1",
+      "category": "incomplete_requirements",
+      "prompt": "把这篇论文做成适合演讲的材料。",
+      "inputs": [
+        "raw paper"
+      ],
+      "expected": [
+        "asks or explicitly states low-cost planning assumptions for audience, duration and video/PPT versus static form",
+        "does not start expensive synthesis/rendering or create a full course from ambiguous wording",
+        "records unresolved choices without claiming finished media"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "R1",
+      "category": "local_revision",
+      "prompt": "只把第 3 章的强调色改为橙色，并把最后一句旁白改得更口语一些；其他内容保持不变。同步更新完整视频、PPT 和讲稿。",
+      "inputs": [
+        "copy of an accepted P1 project with at least three chapters and per-slide presentation configuration",
+        "before-change artifact/hash inventory"
+      ],
+      "expected": [
+        "updates only intended local copy/presentation fields and records concrete wording changes",
+        "refreshes humanizer then humanizer-zh review evidence and current hash",
+        "reuses verified unchanged audio cues",
+        "renders selected affected scene while validating unselected dependencies",
+        "unrelated master, trace, QA and native JSON bytes remain identical, or a concrete shared-dependency reason for full render is reported",
+        "later timing offsets use explicit frame maps",
+        "re-exports and verifies actual video/PPT/manuscript with updated canonical notes"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "T1",
+      "category": "custom_theme",
+      "prompt": "沿用这份研究视频项目，把主题改为浅色背景、深蓝正文、橙色强调。保留默认字号和文字内容。先给出配色方案，确认后生成视频和 PPT。",
+      "inputs": [
+        "accepted v0.2 project copy",
+        "baseline spec/media hashes"
+      ],
+      "expected": [
+        "custom theme YAML and recorded palette confirmation",
+        "validated text/background contrast and fixed 48/30/20 roles",
+        "full-frame rendered geometry evidence rather than theme-parser-only success",
+        "same narration and source claims; any required shared-theme rerender is explicit",
+        "actual export and verify outputs"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "L1",
+      "category": "legacy_revision",
+      "prompt": "这是已有 schema_version 0.1 的 Manim 演示项目。只缩短 s02 的标题，重新导出原有 HTML、PPTX、PDF 和讲稿，不要配音或迁移。",
+      "inputs": [
+        "complete v0.1 source project with original evidence/QA"
+      ],
+      "expected": [
+        "explicit legacy route and unchanged schema",
+        "affected copy and scene synchronized with renewed review/QA",
+        "legacy output verification with no SSH, TTS model install or unrequested migration"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "Q1",
+      "category": "review_only",
+      "prompt": "检查这份研究视频和 PPT 的同步、画面和备注，列出问题即可，不要修改文件。",
+      "inputs": [
+        "complete v0.2 project and actual media"
+      ],
+      "expected": [
+        "read-only diagnostics and evidence-backed findings",
+        "no repair, rerender, republish or rewritten approval record",
+        "unheard narration and unplayed PPT behavior remain not_checked"
+      ],
+      "status": "not_run"
+    }
+  ]
+}

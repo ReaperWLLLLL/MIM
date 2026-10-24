@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from dataclasses import dataclass
@@ -11,6 +12,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from common import SkillInputError, load_structured_file, project_root_for
+from research.spec import audience_copy as registered_audience_copy, content_hash
 
 
 @dataclass(frozen=True)
@@ -31,6 +33,16 @@ HARD_PATTERNS = (
         ),
         "chat-assistant artifact",
     ),
+    (re.compile(r"(?:本页|本段|本视频|这张幻灯片)(?:将|主要|旨在|用于)?(?:展示|介绍|讲解|说明)|"
+                r"\b(?:this slide|this video|on this slide)\s+(?:will|shows?|presents?)\b", re.IGNORECASE),
+     "internal presentation instruction"),
+    (re.compile(r"避免误解|为免误解|需要(?:强调|指出|说明)的是|仅供(?:演示|说明|参考)|"
+                r"(?:这些|上述)(?:数值|数据|结果).{0,12}(?:并不|不)(?:代表|是)真实|"
+                r"\b(?:to avoid (?:any )?confusion|for illustrative purposes only)\b", re.IGNORECASE),
+     "defensive production language"),
+    (re.compile(r"实验结果表明|实验结果显示|这(?:充分)?证明|本(?:方法|研究|系统).{0,10}(?:显著优势|优越性)|"
+                r"\b(?:experimental results (?:show|demonstrate)|this (?:fully )?proves)\b", re.IGNORECASE),
+     "formulaic report or unsupported promotional language"),
 )
 
 SUGGESTION_PATTERNS = (
@@ -50,20 +62,8 @@ SUGGESTION_PATTERNS = (
 
 
 def audience_copy(data: dict[str, Any]) -> Iterable[tuple[str, str]]:
-    project = data.get("project", {})
-    narrative = data.get("narrative", {})
-    yield "project.title", str(project.get("title", ""))
-    yield "narrative.thesis", str(narrative.get("thesis", ""))
-    for index, item in enumerate(narrative.get("takeaways", [])):
-        yield f"narrative.takeaways[{index}]", str(item)
-    for slide_index, slide in enumerate(data.get("slides", [])):
-        base = f"slides[{slide_index}]"
-        for field in ("title", "claim", "notes"):
-            yield f"{base}.{field}", str(slide.get(field, ""))
-        for beat_index, beat in enumerate(slide.get("beats", [])):
-            yield f"{base}.beats[{beat_index}].narration", str(
-                beat.get("narration", "")
-            )
+    """Compatibility iterator over the shared complete audience-text registry."""
+    yield from registered_audience_copy(data).items()
 
 
 def excerpt_for(text: str, match: re.Match[str], radius: int = 32) -> str:
@@ -89,13 +89,14 @@ def audit(data: dict[str, Any]) -> list[Finding]:
     return findings
 
 
-def markdown_report(deck: Path, findings: list[Finding]) -> str:
+def markdown_report(deck: Path, findings: list[Finding], *, digest: str | None = None) -> str:
     errors = [item for item in findings if item.severity == "error"]
     suggestions = [item for item in findings if item.severity == "review"]
     lines = [
         "# Text humanization review",
         "",
         "Text review: pending",
+        *([f"Audience copy SHA-256: `{digest}`"] if digest else []),
         f"Deck: `{deck.name}`",
         f"Hard findings: {len(errors)}",
         f"Review candidates: {len(suggestions)}",
@@ -163,7 +164,12 @@ def main(argv: list[str] | None = None) -> int:
     root = project_root_for(deck)
     output = args.output.resolve() if args.output else root / "qa" / "text-review.md"
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(markdown_report(deck, findings) + "\n", encoding="utf-8")
+    copy = registered_audience_copy(data)
+    digest = content_hash(copy)
+    manifest = {"schema_version": "0.2", "content_hash": digest, "copy": copy}
+    (output.parent / "audience-copy.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    output.write_text(markdown_report(deck, findings, digest=digest) + "\n", encoding="utf-8")
 
     errors = [item for item in findings if item.severity == "error"]
     suggestions = [item for item in findings if item.severity == "review"]

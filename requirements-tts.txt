@@ -1,0 +1,9 @@
+# Optional remote TTS environment; not needed for native silent animation.
+# Install torch/torchaudio separately with https://download.pytorch.org/whl/cu128.
+torch==2.8.0
+torchaudio==2.8.0
+qwen-tts==0.1.1
+transformers==4.57.3
+accelerate==1.12.0
+huggingface-hub==0.36.0
+modelscope==1.40.2

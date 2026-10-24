@@ -1,56 +1,44 @@
 # Text humanization and spoken-copy QA
 
-Humanize audience-facing copy after `deck.yaml` is valid and before implementing
-the representative sample. Treat wording changes as layout changes.
+Apply this review to audience-facing copy before synthesis and scene production. Keep research facts, terminology, equations and source locators unchanged unless evidence supports a correction. Technical documentation should stay plain and neutral.
 
-## Review scope
+First use [copy-and-math.md](copy-and-math.md) to place content in the right layer and represent mathematics correctly. Screen copy explains the visible operation; source-audit and production qualifications belong in notes. Necessary mathematical hypotheses remain with the relevant claim. Native drafts need a lightweight actual copy/render review, not the strict hash/approval records below.
 
-Review the project title, thesis, takeaways, slide titles, claims, speaker notes,
-beat narration, and every visible string in the Manim scenes. Internal animation
-instructions and code comments do not need literary editing.
+## Two actual editing passes
 
-Do not rewrite equations, reported values, citations, proper names, quoted paper
-language, or standard technical terms merely to vary the wording. Keep the
-evidence map open during the review.
+Read and apply installed `humanizer` first. Produce a draft rewrite, identify remaining formulaic or promotional wording, then revise it. Next read and apply `humanizer-zh` to Chinese copy: remove translation-like constructions, unnecessary announcements and slogans; vary sentence rhythm without inventing an author's personal experience. If either skill is unavailable, name that limitation and perform the corresponding manual pass using these rules. Do not vendor upstream skill files to satisfy availability.
 
-## Apply two passes
+Review titles, thesis, takeaways, every registered label/formula/caption/subtitle, beat narration, audience-facing notes, README and report prose. Internal `action` strings describe production and stay outside audience copy. Put source conditions and calculation scope next to the actual data or example, rather than repeating generic disclaimers. Keep meaningful technical repetition.
 
-1. Run a general humanizer pass. Remove promotional language, vague authority,
-   formulaic signposting, forced groups of three, negative parallelisms, generic
-   conclusions, and slogan-like closing lines. Prefer direct statements.
-2. Run a locale-specific pass. For Chinese decks, invoke `humanizer-zh` after the
-   general `humanizer` pass when those skills are available. Use natural spoken
-   Chinese, keep established English technical terms, and avoid translation-like
-   abstractions. Technical talks should remain neutral; do not add personality or
-   first person where it distracts from the evidence.
-3. Ask what still sounds machine-written, then revise once more. Preserve useful
-   repetition of technical terms instead of cycling through synonyms.
+Record concrete before/draft/final edits, the remaining-tells audit, evidence checks, reviewer and skill version/file hash. A status field or pattern scan cannot stand in for either pass. Read the final narration aloud; listening to synthesized output remains a later separate check.
 
-For other languages, use the best available locale-specific editor after the
-general pass. When no external humanizer skill is installed, apply the same rules
-manually; this reference is the acceptance contract.
+## v0.2 copy manifest and approvals
 
-## Audit and synchronize
-
-Run the mechanical audit:
+Store final scene text in `slide.screen_text`, beat narration in `beats[].narration`, and delivered extra prose in nested `audience_text`. Keep subtitles registered and audit their actual rendered objects. Export current copy:
 
 ```bash
-python "$SKILL_DIR/scripts/audit_text.py" PROJECT_DIR/planning/deck.yaml
+python "$SKILL_DIR/scripts/audit_text.py" planning/deck.yaml
 ```
 
-The command writes `qa/text-review.md`. Hard findings such as em/en dashes and
-chat-assistant artifacts return a nonzero status. Review candidates are prompts
-for judgment, not automatic failures.
+The command writes `qa/text-review.md` and `qa/audience-copy.json`, including path-to-copy entries and a canonical content hash. It resets the Markdown status to pending; save actual manual review evidence separately before rerunning it. Synchronize external README/report files with the strings registered in `audience_text`; hashing the registry alone cannot detect an unregistered external edit.
 
-After editing `deck.yaml`, synchronize all visible strings in `src/`. Read the
-speaker notes aloud, regenerate `deliverables/speech.md`, and confirm that its
-estimated duration remains within 10% of the requested time. Mark `Text review:
-approved` only after checking facts, terminology, spoken rhythm, and scene-copy
-consistency.
+After both real passes and fact checks, manually record the **current final** manifest hash in the spec:
 
-## Re-render gate
+```yaml
+text_review:
+  content_hash: "<actual final audience-copy hash>"
+  humanizer:
+    status: "approved"
+    content_hash: "<same actual hash>"
+  humanizer-zh:
+    status: "approved"
+    content_hash: "<same actual hash>"
+```
 
-Any wording change can alter width, wrapping, timing, and animation density.
-Re-render every affected slide, run text-fit assertions where available, inspect
-full-resolution dense and final frames, and repeat visual QA. A prior visual
-approval does not survive a change to visible text.
+This illustrates the contract, not a reusable approval. Preserve reviewer/version/edit evidence in `qa/`; do not paste approvals into the distributed generic template. Release validation rejects missing or stale hashes. Any audience edit requires review again; narration edits also require verified audio and a new timeline. Export uses newline-joined canonical beat narration for PPT notes, never internal actions or `slide.notes` as a substitute. The manuscript uses actual spoken text, frame/sample timing and pronunciation correspondence.
+
+## v0.1 compatibility
+
+Existing v0.1 projects still use `qa/text-review.md` and their old render/speech commands. Apply the same two literary passes, synchronize scene strings and regenerate the legacy manuscript, but do not mistake its estimated timing for v0.2 audio-derived timing. Re-render text changes and inspect final-size evidence frames.
+
+For either route, copy changes invalidate the affected visual approval. Check full-frame registration/layout evidence for v0.2, inspect composition in real motion and repeat final delivery verification. A clean audit is a useful diagnostic, not approval of facts, writing, layout or listening quality.

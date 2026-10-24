@@ -1,0 +1,15 @@
+# Private inputs stay outside source control.
+.private/
+.env
+.env.*
+!.env.example
+.ssh/
+credentials/
+
+# Local runtime and generated caches.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+build/
+media/
