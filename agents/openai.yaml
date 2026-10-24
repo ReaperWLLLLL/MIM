@@ -1,4 +1,4 @@
 interface:
   display_name: "Build Manim Decks"
   short_description: "Explain technical ideas with meaningful Manim animation"
-  default_prompt: "Use $build-manim-decks to discuss the teaching example, depth and visual style, then build a clear Manim explanation from my material."
+  default_prompt: "Use $build-manim-decks to discuss my audience, main message and visual style, then turn my research or other material into a clear Manim explanation."

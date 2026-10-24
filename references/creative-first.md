@@ -4,22 +4,22 @@ Use a visual explanation to resolve an audience question. Preserve the user's fo
 
 ## Design the explanation
 
-Read the relevant source and existing scenes first. For new material, a new chapter or a materially changed teaching scope, brainstorm the unresolved teaching choices with the user before selecting the example and authoring scenes. Use an installed brainstorming skill when available; the conversation below is sufficient when it is not.
+Read the relevant source and existing scenes first. For new material, a new section or a materially changed explanation scope, brainstorm the unresolved communication choices with the user before selecting the example and authoring scenes. Use an installed brainstorming skill when available; the conversation below is sufficient when it is not.
 
-Ask one consequential question at a time, using what the source and prior conversation already establish. Find out what the audience must be able to understand or do, and whether the example should be an introductory mechanism sketch, a source-sized worked example or a practical multi-part system. Discuss the features the example needs, not just a node count. Once grounded, propose concrete alternatives with their teaching tradeoffs and let the user choose.
+Ask one consequential question at a time, using what the source and prior conversation already establish. Find out what the speaker wants the audience to understand: a contribution, mechanism, result, comparison or practical process. For a research presentation, identify the main claim, the audience's background and the evidence supporting the claim. Choose the central object accordingly: the actual method, a result comparison, a real system or a worked example. When an example is useful, discuss its scale and features. Propose alternatives with their explanatory tradeoffs and let the user choose.
 
 Keep a short agreed brief, not a new schema:
 
-- audience and intended depth;
-- primary example's scale and structural features;
+- audience, main message and intended depth;
+- central objects, evidence or examples, including relevant scale and structural features;
 - simplifications, and what they preserve or remove;
 - explanation tone, notation conventions and [visual style](visual-styles.md).
 
-Identify which choices the user confirmed and which they explicitly delegated. An accepted palette, praise for an earlier animation, permission for full generation or relaxed QA does not answer an unresolved content-design question. If the user explicitly delegates example selection, state the proposed choice and reason in the brief, then proceed. For wording/layout edits within a confirmed brief, reuse it without another conversation.
+Identify which choices the user confirmed and which they explicitly delegated. An accepted palette, praise for an earlier animation, permission for full generation or relaxed QA does not answer an unresolved content-design question. If the user explicitly delegates content selection, state the proposed choice and reason in the brief, then proceed. For wording/layout edits within a confirmed brief, reuse it without another conversation.
 
-For each scene, write a short note stating the audience's difficulty, the object followed, the operation and the resulting understanding. Minimal visual style controls emphasis and clutter, not problem complexity. Use focus, staged disclosure, selected matrix blocks or camera motion to make a suitably rich example readable. A small opening example may introduce an operation; return to the agreed main case for its application.
+For each scene, write a short note stating the audience's difficulty, the object followed, the operation and the resulting understanding. Minimal visual style controls emphasis and clutter, not problem complexity. Use focus, staged disclosure, selected matrix blocks or camera motion to make a suitably rich example readable. A small opening example may introduce an operation; return to the actual method or system when that is the subject. A research-results talk can instead follow the experiment and the comparison it supports.
 
-Choose the visual language for that operation. Vector addition can use moving arrows; a dependency can use a persistent connection; a formula can retain matching terms through a transform. Introduce meaning before measurements. Keep scientific assumptions accurate and introduce the working model once. Prepare screen copy using [copy-and-math.md](copy-and-math.md), keeping production/evidence commentary in notes.
+Choose the visual language for that operation. Vector addition can use moving arrows; a dependency can use a persistent connection; a formula can retain matching terms through a transform. Choose an order that serves the argument: a mechanism may need its quantities introduced first, while a results talk may open with an observed finding and then explain it. Keep illustrative data distinct from the speaker's measured results. Keep scientific assumptions accurate and introduce the working model once. Prepare screen copy using [copy-and-math.md](copy-and-math.md), keeping production/evidence commentary in notes.
 
 ## Make a representative sample
 
@@ -31,15 +31,15 @@ Render into a new output directory at draft quality with the existing local envi
 python -m manim -ql --disable_caching --media_dir build/sample-v01 src/sample.py ExplanatorySample
 ```
 
-Use [native-manim.md](native-manim.md) for implementation; the legacy `DeckSlide` and strict `ResearchScene` APIs are not native-route prerequisites. For whole lectures and chapters, first map the substantive source coverage using [chapter-production.md](chapter-production.md).
+Use [native-manim.md](native-manim.md) for implementation; the legacy `DeckSlide` and strict `ResearchScene` APIs are not native-route prerequisites. For complete talks and long-form explanations, first map the substantive source coverage using [chapter-production.md](chapter-production.md).
 
-Once the teaching brief is confirmed or its open choices explicitly delegated, apply the agreed execution mode. Let the user judge the animation when review is requested or the visual direction is unresolved. For already authorized full production, inspect the representative segment and continue within that brief. Do not stop at a sample and call a whole-chapter task complete. A successful render is not human approval.
+Once the communication brief is confirmed or its open choices explicitly delegated, apply the agreed execution mode. Let the user judge the animation when review is requested or the visual direction is unresolved. For already authorized full production, inspect the representative segment and continue within that brief. Do not stop at a sample and call a full-talk task complete. A successful render is not human approval.
 
 ## Review in proportion to the task
 
-Compare the actual example with the agreed brief: does it retain the intended scale, interactions and difficulty? Check scientific meaning, direct explanatory text, typeset mathematics, continuity and useful pauses. Confirm decoding and inspect a few representative/crowded states. Deliberate superposition, vector assembly and glyph transformation are legitimate operations. Repair accidental occlusion or clipping.
+Compare the actual scene content with the agreed brief: does it communicate the intended claim, preserve the evidence and retain the necessary scale and interactions? Check scientific meaning, direct explanatory text, typeset mathematics, continuity and useful pauses. Confirm decoding and inspect a few representative/crowded states. Deliberate superposition, vector assembly and glyph transformation are legitimate operations. Repair accidental occlusion or clipping.
 
-State whether continuous playback was actually reviewed. Frame extraction and metadata do not prove pacing or teaching effectiveness. Human approval remains separate from tool success. Keep notes short; default previews do not require all-frame traces, approval hashes, counterfactual test suites or independent audit agents.
+State whether continuous playback was actually reviewed. Frame extraction and metadata do not prove pacing or explanatory clarity. Human approval remains separate from tool success. Keep notes short; default previews do not require all-frame traces, approval hashes, counterfactual test suites or independent audit agents.
 
 The strict `research-video.md` tools remain available for an existing v0.2 project or a requested synchronized/provenance workflow. Their invariants still apply when using those tools. Use a native creative route rather than falsifying or bypassing their records.
 

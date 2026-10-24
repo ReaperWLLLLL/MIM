@@ -16,7 +16,13 @@ moving any extracted text or image into a tracked directory.
 
 ## Reading strategy
 
-Do not summarize the whole source indiscriminately. Extract the research question or teaching objective, gap, mechanism, key definitions, experimental setup, strongest result, uncertainty, limitation, and reusable visual evidence. For long papers, read the abstract, introduction, method overview, figure captions, central results, and conclusion first. Return to detailed sections only when a planned slide needs them.
+For the speaker's own research, use the supplied manuscript, method descriptions
+and result tables as working inputs. Identify the author's contribution and the
+prior work it builds on. Preserve experimental conditions and distinguish actual
+measurements from illustrative examples; ask for missing evidence when a central
+claim depends on it.
+
+Do not summarize the whole source indiscriminately. Extract the research question or communication objective, gap, mechanism, key definitions, experimental setup, strongest result, uncertainty, limitation, and reusable visual evidence. For long papers, read the abstract, introduction, method overview, figure captions, central results, and conclusion first. Return to detailed sections only when a planned slide needs them.
 
 ## Evidence map
 
@@ -41,6 +47,6 @@ Keep each ID in backticks in the first column of the Markdown table. `validate_d
 - Preserve units, denominators, baselines, confidence intervals, and experimental conditions.
 - Do not infer causality from correlation unless the source supports it.
 - Do not turn a qualitative statement into a fabricated numeric result.
-- Separate source claims, presenter interpretation, and pedagogical analogy.
+- Separate source claims, presenter interpretation, and illustrative analogy.
 - Surface conflicting evidence instead of silently selecting the convenient result.
 - Mark unavailable or ambiguous evidence as unresolved in the planning artifacts.

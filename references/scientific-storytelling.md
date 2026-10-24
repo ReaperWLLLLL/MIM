@@ -1,4 +1,4 @@
-# Scientific storytelling and teaching design
+# Scientific storytelling and explanation design
 
 ## Design the argument
 
@@ -46,7 +46,7 @@ Use animation to reveal dependency, transformation, or attention order. Do not a
 - Use transitions to re-establish the question and accumulated evidence.
 - End with contribution, evidence, limitation, and implication; keep it visible for questions.
 
-For technical teaching, state prerequisites, move from intuition to formal construction, return to a worked example, show one failure mode, and finish with a retrieval or transfer question.
+For research-results talks, follow the contribution and its supporting evidence, adjusting background to the audience. A worked example is useful when it clarifies the method; exercises and prerequisite-by-prerequisite progression are appropriate when the user requests a lesson.
 
 ## Citations
 

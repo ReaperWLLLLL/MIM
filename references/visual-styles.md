@@ -9,8 +9,8 @@ still follow the explanation.
 | Preset | Composition and motion | Suitable use |
 | --- | --- | --- |
 | `midnight` / 深色几何 | Dark blue field, centered objects, generous empty space; mint and violet distinguish roles, gold marks the active operation. Move or transform matching objects, then hold. | Geometry, mechanisms, focused video viewing |
-| `daylight` / 浅色学术 | Cool white field, left-aligned heading and thin rules; diagram and derivation can share two columns. Reveal aligned equations in reading order. Teal and purple preserve object roles. | Classroom projection, research presentations, light-background slides |
-| `notebook` / 暖纸手稿 | Warm paper field, ink-like strokes, optional faint ruled guides, margin annotations and curved pointers. Write a relation, connect it to the diagram, carry it into the next line. | Guided derivations and tutorial explanations |
+| `daylight` / 浅色学术 | Cool white field, left-aligned heading and thin rules; diagram and derivation can share two columns. Reveal aligned equations in reading order. Teal and purple preserve object roles. | Research presentations, conference projection, light-background slides |
+| `notebook` / 暖纸手稿 | Warm paper field, ink-like strokes, optional faint ruled guides, margin annotations and curved pointers. Write a relation, connect it to the diagram, carry it into the next line. | Method walkthroughs, derivations and reasoning in progress |
 
 Do not add paper texture images, shaky formulas or decorative dashboards by
 default. Notebook uses precise typeset mathematics and vector rules. All three

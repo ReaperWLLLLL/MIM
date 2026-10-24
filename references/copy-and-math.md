@@ -12,7 +12,7 @@ Use for titles, labels, captions, subtitles and narration, including native draf
 
 Introduce the working model once, in the section where it matters. Attach an assumption directly to a claim if omitting it would change its meaning. Discuss a counterexample when it is the learning objective. Other source-audit and production qualifications stay in notes rather than becoming a running defensive commentary.
 
-Write the positive, local explanation first: “在这张电阻网中，…” followed by what happens and why. Avoid appending unrelated replies to imagined objections. Humanizer editing comes after this content-placement pass; making a disclaimer sound smoother does not make it useful teaching copy.
+Write the positive, local explanation first: “在这张电阻网中，…” followed by what happens and why. Avoid appending unrelated replies to imagined objections. Humanizer editing comes after this content-placement pass; making a disclaimer sound smoother does not make it useful explanatory copy.
 
 Examples:
 

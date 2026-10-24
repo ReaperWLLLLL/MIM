@@ -20,6 +20,21 @@
   },
   "evals": [
     {
+      "id": "R0",
+      "category": "own_research_presentation",
+      "prompt": "使用 $build-manim-decks，把我的研究稿和实验结果做成 12 分钟动态汇报。听众是相关领域同行，重点说明方法的新意和实验支持的结论，交付内嵌无声动画的 PPT。先讨论讲解主线，再给我样片。",
+      "inputs": ["author-provided research draft and results", "empty project directory"],
+      "expected": [
+        "confirms the main message, audience background and evidence before scene production",
+        "organizes the actual problem, contribution, method and results into an explanation",
+        "uses process animation or result comparison where it clarifies the argument",
+        "adds a worked example only when useful; does not impose a lesson structure or exercises",
+        "preserves supplied data and distinguishes measured results from illustrative examples",
+        "renders a representative native sample before the requested video-based PPT packaging"
+      ],
+      "status": "not_run"
+    },
+    {
       "id": "C1",
       "category": "native_chapter",
       "prompt": "使用 $build-manim-decks，把这份网络分析讲义做成 15 分钟无声动画，听众是研究生。风格清爽，先给我样片。",

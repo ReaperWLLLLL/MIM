@@ -1,17 +1,19 @@
 ---
 name: build-manim-decks
-description: Use when turning a paper, lecture, script or topic into a Manim explanatory animation or animated presentation, or revising an existing Manim project. Not for text-only summaries or native-editable static slides.
+description: Use when turning research results, papers, technical ideas, scripts or other material into a Manim explanatory animation or animated presentation, or revising an existing Manim project. Not for text-only summaries or native-editable static slides.
 ---
 
 # Build Manim Decks
 
 Explain through objects and meaningful transformations. The audience should see why a relationship holds, not just watch statements appear. Visual reasoning is the default; narration and export machinery are separate, requested capabilities.
 
+Support research presentations, paper discussions, technical proposals, public explanations and course material. Start from what the speaker wants the audience to understand. For research results, organize the problem, contribution, method and supporting evidence around the actual work; a concrete process or result comparison can anchor the animation. Match the audience's prior knowledge and use worked examples when they serve the explanation.
+
 ## Choose the route
 
 Treat this directory as `SKILL_DIR`; keep generated projects outside it. Reuse established audience, language, source, style and scope. Inspect original scenes before revisions.
 
-- New animation or silent video: read [creative workflow](references/creative-first.md). For a whole lecture or chapter, also read [chapter production](references/chapter-production.md).
+- New animation or silent video: read [creative workflow](references/creative-first.md). For a multi-section talk or long-form explanation, also read [section production](references/chapter-production.md).
 - Native scene implementation: read [native Manim](references/native-manim.md), not legacy authoring.
 - Requested narration, sound, PPT or other formats: read [optional post-production](references/post-production.md).
 - Existing `schema_version: "0.1"`: retain `references/workflow.md` and its tools. Preserve the project unless migration is requested.
@@ -21,7 +23,7 @@ Treat this directory as `SKILL_DIR`; keep generated projects outside it. Reuse e
 
 ## Creative defaults and optional production tools
 
-For new material or a changed teaching scope, first follow the design conversation in [creative-first.md](references/creative-first.md): agree on depth, example scale/structure and simplifications before scene production. Reuse confirmed answers. Style approval and lighter QA do not settle example choice. Explicitly delegated choices can proceed after stating them; wording-only revisions within an agreed brief need no new design round.
+For new material or a changed explanation scope, first follow the design conversation in [creative-first.md](references/creative-first.md): agree on the main message, depth, central objects or examples, and simplifications before scene production. Reuse confirmed answers. Style approval and lighter QA do not settle content choices. Explicitly delegated choices can proceed after stating them; wording-only revisions within an agreed brief need no new design round.
 
 Use 16:9 and a low-resolution representative segment. Discuss [visual styles](references/visual-styles.md): `midnight` (dark geometry), `daylight` (light academic), or `notebook` (warm paper), preserving an already agreed style. Use locally licensed Microsoft YaHei for Chinese, or the user's chosen installed font; never bundle font files. Minimal style concerns composition, not minimum node count. Use [copy and inline mathematics](references/copy-and-math.md) for audience text; mixed sentences combine prose with real mathematical objects.
 
