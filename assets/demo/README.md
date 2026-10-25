@@ -4,6 +4,15 @@ All images and animations here are rendered from project-authored Manim scenes.
 No lecture pages, paper screenshots, source figures, voice recordings or font
 files are included.
 
+The main README also embeds the publicly uploaded silent chapter-one video:
+https://github.com/user-attachments/assets/8bffd351-8f4e-4719-930c-e759f818a6c2
+It shows an original four-node example explaining trees, links, cutsets and
+the A/B/Q matrices. The uploaded file has exactly one H.264 video stream,
+1280×720 at 30 fps, duration 222.266016 seconds, and no audio stream.
+Size: 6,254,705 bytes. SHA256:
+`ad9d0eec03ed8ab9ec8c75593ab50e3c2dbb1ea47bd752643d1614ca48803fe0`.
+The attachment contains no lecture pages, source PDF, voice recordings or fonts.
+
 - The three style PNGs/GIFs show the original local branch stamp in
   ../native-example/style_showcase.py. This standard relation between two
   terminal currents and voltages requires no course document to reproduce.
