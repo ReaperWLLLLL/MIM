@@ -3,7 +3,7 @@ name: build-manim-decks
 description: Use when turning research results, papers, technical ideas, scripts or other material into a Manim explanatory animation or animated presentation, or revising an existing Manim project. Not for text-only summaries or native-editable static slides.
 ---
 
-# Build Manim Decks
+# MIM: Make Ideas Move
 
 Explain through objects and meaningful transformations. The audience should see why a relationship holds, not just watch statements appear. Visual reasoning is the default; narration and export machinery are separate, requested capabilities.
 

@@ -1,11 +1,11 @@
-# build-manim-decks
+# MIM · Make Ideas Move
 
 用 Manim 动画讲清研究成果、技术方案、论文或一个想法。
 
-[![CI](https://github.com/ReaperWLLLLL/build-manim-decks/actions/workflows/ci.yml/badge.svg)](https://github.com/ReaperWLLLLL/build-manim-decks/actions/workflows/ci.yml)
+[![CI](https://github.com/ReaperWLLLLL/MIM/actions/workflows/ci.yml/badge.svg)](https://github.com/ReaperWLLLLL/MIM/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-这个 Skill 帮助 AI 和使用者一起组织讲解：先明确想传达的观点，再用图形变化、公式推导和数据对比把它说明白。你可以用它向同行介绍自己的研究成果，讲解一篇论文的方法，或向合作者说明技术方案；课程讲解也是其中一种用途。
+MIM 是 Make Ideas Move 的缩写。这套 Skill 帮助 AI 和使用者一起组织讲解：先明确想传达的观点，再用图形变化、公式推导和数据对比把它说明白。你可以用它向同行介绍自己的研究成果，讲解一篇论文的方法，或向合作者说明技术方案；课程讲解也是其中一种用途。
 
 项目仍在迭代。已有论文演示和课程动画的制作经验，研究成果汇报等场景还需要更多实际案例。欢迎贡献讲解案例、风格方案和具体的修复。
 
@@ -67,7 +67,7 @@
 把仓库放到当前 AI 工具的 Skill 目录中，或在对话中提供 `SKILL.md` 的路径。Codex 默认目录的安装示例：
 
 ```bash
-git clone https://github.com/ReaperWLLLLL/build-manim-decks.git \
+git clone https://github.com/ReaperWLLLLL/MIM.git \
   ~/.codex/skills/build-manim-decks
 cd ~/.codex/skills/build-manim-decks
 python3.11 -m venv .venv
