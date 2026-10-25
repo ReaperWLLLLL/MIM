@@ -8,13 +8,31 @@ MIM 是一套给 AI 使用的 Skill。你提供材料和想传达的观点，AI 
 
 ## 效果预览
 
-神经网络与反向传播：跟随一条权重，观察前向计算、两路梯度汇合和参数更新。以下为 3 分钟无声完整版。
+三个示例均为无声完整视频。MP4 统一使用 `mim-demo-序号-主题.mp4` 命名，按高网、DeepInfer、神经网络排列；可在[示例视频发布页](https://github.com/ReaperWLLLLL/MIM/releases/tag/demo-videos-2026-10-25)下载。
+
+### 示例 01 · 高网：树支、连支与 A/B/Q 矩阵
+
+从树支、连支和割集，走到图与 A、B、Q 矩阵的对应关系。约 3 分 42 秒，720p / 30 fps。[下载完整 MP4](https://github.com/ReaperWLLLLL/MIM/releases/download/demo-videos-2026-10-25/mim-demo-01-circuit-network.mp4)。
+
+https://github.com/user-attachments/assets/8bffd351-8f4e-4719-930c-e759f818a6c2
+
+### 示例 02 · DeepInfer：生产集群调度
+
+跟随短请求、长请求和带缓存前缀的请求，观察缓存复用、Prefill 分配与分块、KV 交接、Decode 选路和流式返回。3 分钟，720p / 30 fps。依据官方公开部署说明绘制，负载数值用于讲解，不是生产性能测试。
+
+[![DeepInfer 集群调度片段：缓存复用、长请求分块与 Decode 负载比较](assets/demo/deepinfer-cluster-scheduling.gif)](https://github.com/ReaperWLLLLL/MIM/releases/download/demo-videos-2026-10-25/mim-demo-02-deepinfer.mp4)
+
+上图为 12 秒片段预览。[下载完整 MP4](https://github.com/ReaperWLLLLL/MIM/releases/download/demo-videos-2026-10-25/mim-demo-02-deepinfer.mp4)。
+
+### 示例 03 · 神经网络：两路梯度回传
+
+跟随一条权重，观察前向计算、两路梯度汇合与参数更新。3 分钟，720p / 30 fps。[下载完整 MP4](https://github.com/ReaperWLLLLL/MIM/releases/download/demo-videos-2026-10-25/mim-demo-03-neural-network.mp4)。
 
 https://github.com/user-attachments/assets/a3df5c9e-c3d4-4d22-8d98-9f2a1678818f
 
-高等电路网络分析第一章：从树支、连支和割集，到 A、B、Q 矩阵。以下为约 3 分 42 秒的无声完整版。
+视频中的图形与解释为重新制作，未上传私人课件或论文原文。[示例来源与文件记录](assets/demo/README.md)。
 
-https://github.com/user-attachments/assets/8bffd351-8f4e-4719-930c-e759f818a6c2
+### 三种视觉风格
 
 同一个支路与矩阵的讲解，可以采用三种风格：
 

@@ -44,6 +44,12 @@ def test_private_sources_and_secrets_are_flagged():
     assert not inspect_blob("references/guide.md", b"Keep papers in .private/")
 
 
+def test_reviewed_deepinfer_preview_does_not_allow_other_generated_media():
+    assert not inspect_blob("assets/demo/deepinfer-cluster-scheduling.gif", b"GIF89a\xff")
+    assert inspect_blob("assets/demo/unreviewed-preview.gif", b"GIF89a\xff")
+    assert inspect_blob("assets/demo/mim-demo-02-deepinfer.mp4", b"\x00\xff")
+
+
 def test_audit_reads_staged_blob_not_working_copy(tmp_path):
     import subprocess
     def git(*args):

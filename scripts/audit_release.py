@@ -30,6 +30,7 @@ def inspect_blob(path, data):
         "attention-deck-overview.png", "qkv-attention.gif",
         "style-midnight.png", "style-daylight.png", "style-notebook.png",
         "style-midnight.gif", "style-daylight.gif", "style-notebook.gif",
+        "deepinfer-cluster-scheduling.gif",
     }
     if suffix in {".png", ".gif", ".jpg", ".jpeg", ".webp"}:
         if str(Path(path).parent) != "assets/demo" or Path(path).name not in approved_images:
