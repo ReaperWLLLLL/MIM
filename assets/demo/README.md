@@ -13,6 +13,18 @@ Size: 6,254,705 bytes. SHA256:
 `ad9d0eec03ed8ab9ec8c75593ab50e3c2dbb1ea47bd752643d1614ca48803fe0`.
 The attachment contains no lecture pages, source PDF, voice recordings or fonts.
 
+The README also embeds the silent neural-network/backpropagation video:
+https://github.com/user-attachments/assets/a3df5c9e-c3d4-4d22-8d98-9f2a1678818f
+It follows a weight through forward computation, two backward paths, signed
+gradient accumulation and synchronous parameter updates. Network graphics and
+example parameters were authored for the explanation, not copied from lecture
+pages or reported as experimental data. The file contains one H.264 video stream,
+1280×720 at 30 fps, duration 180 seconds, with no audio.
+Size: 4,198,443 bytes. SHA256:
+`66084ad08f15cb4aafec01e4bede8cde74f217637303ad7ce34bb9eb0eaf160b`.
+No private source PDF, lecture screenshots, institution branding, voices or font
+files are included in the uploaded video.
+
 - The three style PNGs/GIFs show the original local branch stamp in
   ../native-example/style_showcase.py. This standard relation between two
   terminal currents and voltages requires no course document to reproduce.

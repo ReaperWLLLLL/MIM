@@ -8,6 +8,10 @@ MIM 是一套给 AI 使用的 Skill。你提供材料和想传达的观点，AI 
 
 ## 效果预览
 
+神经网络与反向传播：跟随一条权重，观察前向计算、两路梯度汇合和参数更新。以下为 3 分钟无声完整版。
+
+https://github.com/user-attachments/assets/a3df5c9e-c3d4-4d22-8d98-9f2a1678818f
+
 高等电路网络分析第一章：从树支、连支和割集，到 A、B、Q 矩阵。以下为约 3 分 42 秒的无声完整版。
 
 https://github.com/user-attachments/assets/8bffd351-8f4e-4719-930c-e759f818a6c2
