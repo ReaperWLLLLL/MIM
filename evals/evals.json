@@ -1,5 +1,5 @@
 {
-  "skill_name": "build-manim-decks",
+  "skill_name": "mim",
   "schema_version": "1.0",
   "purpose": "Routing and artifact-based forward tests; definitions are not execution results.",
   "execution": {
@@ -22,7 +22,7 @@
     {
       "id": "R0",
       "category": "own_research_presentation",
-      "prompt": "使用 $build-manim-decks，把我的研究稿和实验结果做成 12 分钟动态汇报。听众是相关领域同行，重点说明方法的新意和实验支持的结论，交付内嵌无声动画的 PPT。先讨论讲解主线，再给我样片。",
+      "prompt": "使用 $mim，把我的研究稿和实验结果做成 12 分钟动态汇报。听众是相关领域同行，重点说明方法的新意和实验支持的结论，交付内嵌无声动画的 PPT。先讨论讲解主线，再给我样片。",
       "inputs": ["author-provided research draft and results", "empty project directory"],
       "expected": [
         "confirms the main message, audience background and evidence before scene production",
@@ -37,7 +37,7 @@
     {
       "id": "C1",
       "category": "native_chapter",
-      "prompt": "使用 $build-manim-decks，把这份网络分析讲义做成 15 分钟无声动画，听众是研究生。风格清爽，先给我样片。",
+      "prompt": "使用 $mim，把这份网络分析讲义做成 15 分钟无声动画，听众是研究生。风格清爽，先给我样片。",
       "inputs": [
         "lawfully held source chapter",
         "empty project directory"
@@ -73,7 +73,7 @@
     {
       "id": "P1",
       "category": "explicit_positive",
-      "prompt": "使用 $build-manim-decks，将提供的论文制作成面向相关领域研究生的中文科研解说，时长 3 至 5 分钟。完整 MP4 为 1920×1080、60fps，普通话男声旁白。重点讲清研究问题与关键机制。另交付 PPT：按主视频章节内嵌对应的无声动画片段，每页有海报帧与讲者备注。保存可复现源文件与章节映射；图表和算例在对应图注中标明出处与范围。先确认大纲和主题，再做样片。 需要严格 v0.2 的逐帧几何审计与配音样本同步记录。",
+      "prompt": "使用 $mim，将提供的论文制作成面向相关领域研究生的中文科研解说，时长 3 至 5 分钟。完整 MP4 为 1920×1080、60fps，普通话男声旁白。重点讲清研究问题与关键机制。另交付 PPT：按主视频章节内嵌对应的无声动画片段，每页有海报帧与讲者备注。保存可复现源文件与章节映射；图表和算例在对应图注中标明出处与范围。先确认大纲和主题，再做样片。 需要严格 v0.2 的逐帧几何审计与配音样本同步记录。",
       "inputs": [
         "lawfully available raw paper with fixed version/hash",
         "prepared authorized tts-host voice runtime",
@@ -100,7 +100,7 @@
         "same raw-input contract as P1; independent empty output directory"
       ],
       "expected": [
-        "trace selects build-manim-decks without its name in the prompt",
+        "trace selects mim without its name in the prompt",
         "same media and evidence contract as P1",
         "no silent fallback to legacy static/HTML-only production"
       ],

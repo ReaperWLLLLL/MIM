@@ -1,4 +1,4 @@
-"""Shared helpers for build-manim-decks scripts."""
+"""Shared helpers for mim scripts."""
 
 from __future__ import annotations
 

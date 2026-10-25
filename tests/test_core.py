@@ -40,7 +40,7 @@ class SkillPackageTest(unittest.TestCase):
         self.assertIsNotNone(match)
         frontmatter = yaml.safe_load(match.group(1))
         self.assertEqual(set(frontmatter), {"name", "description"})
-        self.assertEqual(frontmatter["name"], "build-manim-decks")
+        self.assertEqual(frontmatter["name"], "mim")
         self.assertLess(len(text.splitlines()), 500)
         # References must be discoverable, not all injected into the entry.
         # Follow existing relative links/code paths through progressive disclosure.
@@ -65,10 +65,9 @@ class SkillPackageTest(unittest.TestCase):
 
         readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
         for path in (
-            "assets/demo/qkv-attention.gif",
-            "assets/demo/attention-deck-overview.png",
-            "SKILL.md",
-            "THIRD_PARTY_NOTICES.md",
+            "assets/demo/style-midnight.gif",
+            "assets/demo/style-daylight.gif",
+            "assets/demo/style-notebook.gif",
         ):
             self.assertIn(path, readme)
             self.assertTrue((REPO_ROOT / path).exists())
@@ -76,7 +75,7 @@ class SkillPackageTest(unittest.TestCase):
     def test_openai_interface_matches_skill(self) -> None:
         data = yaml.safe_load((REPO_ROOT / "agents" / "openai.yaml").read_text())
         interface = data["interface"]
-        self.assertIn("$build-manim-decks", interface["default_prompt"])
+        self.assertIn("$mim", interface["default_prompt"])
         self.assertLessEqual(len(interface["short_description"]), 64)
 
     def test_release_provenance_and_private_source_defaults(self) -> None:

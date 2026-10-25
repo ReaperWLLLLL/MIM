@@ -1,4 +1,4 @@
 interface:
   display_name: "MIM · Make Ideas Move"
   short_description: "Explain technical ideas with meaningful Manim animation"
-  default_prompt: "Use $build-manim-decks to discuss my audience, main message and visual style, then turn my research or other material into a clear Manim explanation."
+  default_prompt: "Use $mim to discuss my audience, main message and visual style, then turn my research or other material into a clear Manim explanation."

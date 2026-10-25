@@ -9,4 +9,4 @@ the final contact sheet, every final frame at full size, and dense intermediate 
 ## Findings
 
 Record slide ID, severity, evidence frame, repair, and status using the format in the
-build-manim-decks `visual-qa.md` reference. State `No unresolved findings` only after review.
+mim `visual-qa.md` reference. State `No unresolved findings` only after review.

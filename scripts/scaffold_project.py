@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a new build-manim-decks project from the bundled template."""
+"""Create a new mim project from the bundled template."""
 
 from __future__ import annotations
 

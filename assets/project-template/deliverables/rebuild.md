@@ -1,10 +1,10 @@
 # Rebuild {{PROJECT_TITLE}}
 
-Run from the project root with `SKILL_DIR` set to the installed `build-manim-decks`
+Run from the project root with `SKILL_DIR` set to the installed `mim`
 directory and its Python environment activated.
 
 ```bash
-: "${SKILL_DIR:?Set SKILL_DIR to the build-manim-decks skill directory}"
+: "${SKILL_DIR:?Set SKILL_DIR to the mim skill directory}"
 
 python "$SKILL_DIR/scripts/preflight.py" --need-pdf-input --need-latex --need-pptx
 python "$SKILL_DIR/scripts/validate_deck.py" planning/deck.yaml --check-paths

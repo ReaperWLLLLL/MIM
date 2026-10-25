@@ -1,6 +1,6 @@
 # Third-party notices
 
-`build-manim-decks` is original orchestration, validation, QA, and export code built
+`mim` is original orchestration, validation, QA, and export code built
 on separately licensed open-source tools. Their source code and binaries are not
 vendored in this repository. Installing or bundling dependencies does not place them
 under this repository's MIT license.
